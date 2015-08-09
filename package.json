@@ -1,0 +1,26 @@
+{
+  "name": "webpack-configurator",
+  "version": "0.0.2",
+  "description": "Helper for creating and extending Webpack configuration structures.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "webpack",
+    "config",
+    "extend",
+    "merge",
+    "loaders",
+    "plugins"
+  ],
+  "author": "Lewis Barnes",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/lewie9021/webpack-configurator"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "3.10.1"
+  }
+}
