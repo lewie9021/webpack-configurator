@@ -1,5 +1,4 @@
 var _ = require("lodash");
-
 var resolveLoader = require("./lib/resolve/loader");
 var resolvePlugin = require("./lib/resolve/plugin");
 var defaultMerge = require("./lib/default/merge");
@@ -15,7 +14,7 @@ function Config() {
     this._plugins = {};
 }
 
-// This method provides function customisation of how the configuration is built and used as a base when resolving.
+// This method provides full customisation of how the configuration object is built. It is also used as a base when resolving.
 Config.prototype.merge = function(config) {
     if (typeof config == "function")
         this._config = config(_.clone(this._config, true) || {});
@@ -41,7 +40,8 @@ Config.prototype.preLoader = function(name, config, resolver) {
 
 // This method is a helper for creating loaders. It requires a name to make merging easier when identifying loaders.
 // There may be some cases where a resolver is needed. A good example is the ExtractTextPlugin. Using the resolver
-// parameter, it is possible to call ExtractTextPlugin.extract when resolving to ensure we have all the loader config.
+// parameter, it is possible to call ExtractTextPlugin.extract when resolving, to ensure we have the fully merged
+// loader config.
 Config.prototype.loader = function(name, config, resolver) {
     var args = Array.prototype.slice.call(arguments);
 
@@ -69,8 +69,9 @@ Config.prototype.postLoader = function(name, config, resolver) {
     return this;
 };
 
-// ExtractText has multiple parameters
-// Every plugin I've seen is a class so we can assume we will be passed a constructor.
+// A method for creating/exending a plugin. It is similar to a loader in respect to the name parameter.
+// From all the examples of plugins I've seen, it seems constructors are always used. This will be instantiated when
+// resolving, passing the value of parameters.
 Config.prototype.plugin = function(name, constructor, parameters) {
     var plugin = (_.clone(this._plugins[name], true) || {});
     var resolvedParameters;
@@ -97,8 +98,8 @@ Config.prototype.plugin = function(name, constructor, parameters) {
     return this;
 };
 
-// This method returns a valid Webpack object. This method should no side-effects and can therefore be called as many
-// times as you want.
+// This method returns a valid Webpack object. It should not produce any side-effects and therefore can be called as
+// many times as you want.
 Config.prototype.resolve = function() {
     var config = _.clone(this._config, true);
     var plugins = [];
