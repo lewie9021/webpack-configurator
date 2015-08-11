@@ -1,6 +1,10 @@
 # Webpack Configurator
 
-A helper for defining Webpack configuration objects, making functionality such as merging/extending much easier.
+## Install
+
+```
+$ npm install webpack-configurator
+````
 
 ## Motivation
 
@@ -38,7 +42,7 @@ config.merge(function(current) {
 
 ### config.loader(key, config, resolver)
 
-<!-- Description of why you might want to use this method. -->
+Provides a way of adding loaders to the config. You can add two other types of loaders using the following: `config.preLoader(key)` and `config.postLoader(key)`.
 
 **Arguments**
 
@@ -95,6 +99,30 @@ config.loader("sass", {
 ```
 <!--- An example of how merging works. -->
 
+### config.removeLoader(key)
+
+Provides a way to remove loaders without directly modifying internal data structures on the Config class. You can remove two other types of loaders using the following: `config.removePreLoader(key)` and `config.removePostLoader(key)`.
+
+**Arguments**
+
+1. `key` *(String)*: Name of the loader you wish to remove. This is the same value used when calling the 'loader' method.
+
+**Returns**
+
+*`(Object)`*: The config object to allow function chaining.
+
+**Example**
+
+```javascript
+// Create a loader with the key 'dustjs-linkedin'
+config.loader("dustjs-linkedin", {
+    test: /\.dust$/
+});
+
+// Remove the loader using the same key as above.
+config.removeLoader("dustjs-linkedin");
+```
+
 ### config.plugin(key, constructor, parameters)
 
 <!-- Description of why you might want to use this method. -->
@@ -131,6 +159,32 @@ config.plugin("webpack-define", Webpack.DefinePlugin, function(current) {
 });
 ```
 
+### config.removePlugin(key)
+
+<!-- Description of why you might want to use this method. -->
+
+**Arguments**
+
+1. `key` *(String)*: Name of the plugin you wish to remove. This is the same value used when calling the 'plugin' method.
+
+**Returns**
+
+*`(Object)`*: The config object to allow function chaining.
+
+**Example**
+
+```javascript
+var Webpack = require("webpack");
+
+// Create a plugin with the key 'webpack-define'.
+config.plugin("webpack-define", Webpack.DefinePlugin, [{
+    __DEV__: true
+}]);
+
+// Remove the plugin using the same key as above.
+config.removePlugin("webpack-define");
+```
+
 <!-- Show how it's more useful when extending... -->
 
 ### config.resolve()
@@ -146,6 +200,7 @@ Call when you want to return a complete Webpack configuration object, typically 
 A simple webpack.config.js file demonstrating the module's use.
 ```javascript
 var Config = require("webpack-configurator");
+var Webpack = require("webpack");
 
 module.exports = (function() {
     var config = new Config();

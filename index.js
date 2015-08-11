@@ -38,8 +38,10 @@ Config.prototype.preLoader = function(name, config, resolver) {
     return this;
 };
 
-Config.prototype.removePreLoader = function(name) {
-    delete this._preLoaders[name];
+Config.prototype.removePreLoader = function(key) {
+    delete this._preLoaders[key];
+
+    return this;
 };
 
 // This method is a helper for creating loaders. It requires a name to make merging easier when identifying loaders.
@@ -59,8 +61,10 @@ Config.prototype.loader = function(name, config, resolver) {
     return this;
 };
 
-Config.prototype.removeLoader = function(name) {
-    delete this._loaders[name];
+Config.prototype.removeLoader = function(key) {
+    delete this._loaders[key];
+    
+    return this;
 };
 
 // Almost an alias of loader only we assign to this._postLoaders.
@@ -77,8 +81,10 @@ Config.prototype.postLoader = function(name, config, resolver) {
     return this;
 };
 
-Config.prototype.removePostLoader = function(name) {
-    delete this._postLoaders[name];
+Config.prototype.removePostLoader = function(key) {
+    delete this._postLoaders[key];
+    
+    return this;
 };
 
 // A method for creating/exending a plugin. It is similar to a loader in respect to the name parameter.
@@ -110,8 +116,10 @@ Config.prototype.plugin = function(name, constructor, parameters) {
     return this;
 };
 
-Config.prototype.removePlugin = function(name) {
-    delete this._plugins[name];
+Config.prototype.removePlugin = function(key) {
+    delete this._plugins[key];
+
+    return this;
 };
 
 // This method returns a valid Webpack object. It should not produce any side-effects and therefore can be called as
