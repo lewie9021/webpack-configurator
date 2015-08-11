@@ -101,7 +101,7 @@ config.loader("sass", {
 
 ### config.removeLoader(key)
 
-Provides a way to remove loaders without directly modifying internal data structures on the Config class. You can remove two other types of loaders using the following: `config.removePreLoader(key)` and `config.removePostLoader(key)`.
+Provides a way to remove loaders without directly modifying internal data structures on the instance. You can remove two other types of loaders using the following: `config.removePreLoader(key)` and `config.removePostLoader(key)`.
 
 **Arguments**
 
