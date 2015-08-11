@@ -42,7 +42,7 @@ config.merge(function(current) {
 
 ### config.loader(key, config, resolver)
 
-Provides a way of adding loaders to the config. You can add two other types of loaders using the following: `config.preLoader(key)` and `config.postLoader(key)`.
+Provides a way of adding loaders to the config. You can add two other types of loaders using `config.preLoader` and `config.postLoader`.
 
 **Arguments**
 
