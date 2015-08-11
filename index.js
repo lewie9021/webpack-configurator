@@ -38,6 +38,10 @@ Config.prototype.preLoader = function(name, config, resolver) {
     return this;
 };
 
+Config.prototype.removePreLoader = function(name) {
+    delete this._preLoaders[name];
+};
+
 // This method is a helper for creating loaders. It requires a name to make merging easier when identifying loaders.
 // There may be some cases where a resolver is needed. A good example is the ExtractTextPlugin. Using the resolver
 // parameter, it is possible to call ExtractTextPlugin.extract when resolving, to ensure we have the fully merged
@@ -55,6 +59,10 @@ Config.prototype.loader = function(name, config, resolver) {
     return this;
 };
 
+Config.prototype.removeLoader = function(name) {
+    delete this._loaders[name];
+};
+
 // Almost an alias of loader only we assign to this._postLoaders.
 Config.prototype.postLoader = function(name, config, resolver) {
     var args = Array.prototype.slice.call(arguments);
@@ -67,6 +75,10 @@ Config.prototype.postLoader = function(name, config, resolver) {
 
     // Return 'this' to allow chaining.
     return this;
+};
+
+Config.prototype.removePostLoader = function(name) {
+    delete this._postLoaders[name];
 };
 
 // A method for creating/exending a plugin. It is similar to a loader in respect to the name parameter.
@@ -96,6 +108,10 @@ Config.prototype.plugin = function(name, constructor, parameters) {
     this._plugins[name] = plugin;
 
     return this;
+};
+
+Config.prototype.removePlugin = function(name) {
+    delete this._plugins[name];
 };
 
 // This method returns a valid Webpack object. It should not produce any side-effects and therefore can be called as
