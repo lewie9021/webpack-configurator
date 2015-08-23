@@ -93,19 +93,20 @@ Config.prototype.removePostLoader = function(key) {
 Config.prototype.plugin = function(name, constructor, parameters) {
     var plugin = (_.clone(this._plugins[name], true) || {});
     var resolvedParameters;
-    
-    if (typeof parameters === "function") {
-        resolvedParameters = parameters(_.clone(plugin.parameters, true) || []);
 
-        if (!_.isArray(resolvedParameters))
-            throw new Error("The 'parameters' argument must return array.");
-        
-        plugin.parameters = resolvedParameters;
-    } else {
-        if (!_.isArray(parameters))
-            throw new Error("The 'parameters' argument must an array or function.");
-        
-        _.merge(plugin, {parameters: parameters}, defaultMerge);
+    if (parameters) {
+        if (_.isFunction(parameters)) {
+            resolvedParameters = parameters(_.clone(plugin.parameters, true) || []);
+
+            if (!_.isArray(resolvedParameters))
+                throw new TypeError("The 'parameters' argument must return array.");
+            
+            plugin.parameters = resolvedParameters;
+        } else if (_.isArray(parameters)) {
+            _.merge(plugin, {parameters: parameters}, defaultMerge);
+        } else {
+            throw new TypeError("The optional 'parameters' argument must be an array or a function.");
+        }
     }
     
     if (constructor)
