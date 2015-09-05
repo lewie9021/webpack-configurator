@@ -1,6 +1,6 @@
 {
   "name": "webpack-configurator",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Helper for creating and extending Webpack configuration structures.",
   "main": "index.js",
   "scripts": {
