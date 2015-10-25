@@ -130,4 +130,72 @@ describe("merge", function() {
         
     });
     
+    describe("examples (using functions)", function() {
+        
+        it("should successfully merge a simple configuration function", function() {
+            this.config.merge(function(current) {
+                current.entry = "./main.js",
+                current.output = {
+                    filename: "bundle.js"
+                };
+
+                return current;
+            });
+
+            expect(this.config.resolve()).to.eql({
+                entry: "./main.js",
+                output: {
+                    filename: "bundle.js"
+                }
+            });
+        });
+        
+        it("should allow multiple calls to config.merge", function() {
+            this.config
+                .merge(function(current) {
+                    current.entry = "./main.js",
+                    current.output = {
+                        filename: "bundle.js"
+                    };
+
+                    return current;
+                })
+                .merge(function(current) {
+                    current.output.path = __dirname + "/dist";
+
+                    return current;
+                });
+            
+            expect(this.config.resolve()).to.eql({
+                entry: "./main.js",
+                output: {
+                    path: __dirname + "/dist",
+                    filename: "bundle.js"
+                }
+            });
+        });
+        
+        it("should replace the current configuration with the returned value", function() {
+            this.config
+                .merge(function(current) {
+                    current.entry = "./main.js",
+                    current.output = {
+                        filename: "bundle.js"
+                    };
+                    
+                    return current;
+                })
+                .merge(function() {
+                    return {
+                        devtool: "inline-source-map"
+                    };
+                });
+            
+            expect(this.config.resolve()).to.eql({
+                devtool: "inline-source-map"
+            });
+        });
+        
+    });
+    
 });
