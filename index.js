@@ -15,7 +15,11 @@ function Config() {
 }
 
 // This method provides full customisation of how the configuration object is built. It is also used as a base when resolving.
+// TODO: If the config function doesn't return a valid, use the value we passed in, assuming the user forgot to return.
 Config.prototype.merge = function(config) {
+    if (!_.isObject(config) && !_.isFunction(config))
+        throw new Error("Invalid Parameter. You must provide either an object or a function.");
+    
     if (typeof config == "function")
         this._config = config(_.clone(this._config, true) || {});
     else
