@@ -4,7 +4,7 @@
   "description": "Helper for creating and extending Webpack configuration structures.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/.bin/mocha"
   },
   "keywords": [
     "webpack",
@@ -22,5 +22,9 @@
   "license": "MIT",
   "dependencies": {
     "lodash": "3.10.1"
+  },
+  "devDependencies": {
+    "chai": "3.4.0",
+    "mocha": "2.3.3"
   }
 }
