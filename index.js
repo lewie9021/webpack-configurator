@@ -54,7 +54,7 @@ Config.prototype.removePreLoader = function(key) {
 // loader config.
 Config.prototype.loader = function(name, config, resolver) {
     var args = Array.prototype.slice.call(arguments);
-
+    
     // Append the loader object.
     args.unshift(this._loaders[name]);
     
