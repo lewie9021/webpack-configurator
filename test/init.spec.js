@@ -20,7 +20,7 @@ describe("instantiation", function() {
 
         methods.forEach(function(method) {
             expect(this.config[method]).to.be.an.instanceof(Function);
-        }.bind(this));
+        }, this);
         
     });
 
@@ -38,7 +38,7 @@ describe("instantiation", function() {
 
         methods.forEach(function(method) {
             expect(this.config[method]).to.be.an.instanceof(Function);
-        }.bind(this));
+        }, this);
     });
 
     it("should provide the ability to resolve the composed configuration into an object for Webpack", function() {
