@@ -94,5 +94,124 @@ describe("loader", function() {
 
         expect(loaders[0]).to.not.have.property("loader");
     });
+
+    it("should enable function chaining by returning the config instance", function() {
+        var config = this.config.loader("my-loader", {});
+
+        // Reference equality.
+        expect(config).to.eq(this.config);
+    });
     
+    describe("examples (using objects)", function() {
+
+        it("should successfully create a simple loader", function() {
+            this.config.loader("babel", {
+                test: /\.jsx?$/,
+                exclude: /node_modules/,
+                query: {
+                    optional: ["runtime"],
+                    stage: 2
+                }
+            });
+
+            expect(this.config.resolve()).to.eql({
+                module: {
+                    loaders: [
+                        {
+                            test: /\.jsx?$/,
+                            exclude: /node_modules/,
+                            loader: "babel",
+                            query: {
+                                optional: ["runtime"],
+                                stage: 2
+                            }
+                        }
+                    ]
+                }
+            });
+            
+        });
+        
+        it("should successfully merge configurations for loaders with the same name", function() {
+             this.config
+                .loader("babel", {
+                    test: /\.jsx?$/,
+                    exclude: /node_modules/,
+                    query: {
+                        optional: ["runtime"],
+                        stage: 2
+                    }
+                })
+                .loader("babel", {
+                    query: {
+                        optional: ["es7.classProperties"]
+                    }
+                });
+
+            expect(this.config.resolve()).to.eql({
+                module: {
+                    loaders: [
+                        {
+                            test: /\.jsx?$/,
+                            exclude: /node_modules/,
+                            loader: "babel",
+                            query: {
+                                optional: ["runtime", "es7.classProperties"],
+                                stage: 2
+                            }
+                        }
+                    ]
+                }
+            });
+            
+        });
+
+        it("should support the ExtractTextPlguin that wraps the value of the 'loader' property", function() {
+            var ExtractTextPlugin = require("extract-text-webpack-plugin");
+
+            function extractTextResolver(config) {
+                // Build up a loader string.
+                var loaders = config.loaders.map(function(loader) {
+                    return loader.name + "?" + JSON.stringify(loader.query);
+                });
+                
+                config.loader = ExtractTextPlugin.extract(loaders.join("!"));
+                
+                // Clean up before resolving.
+                delete config.loaders;
+
+                // Return the correctly resolved sass-loader configuration.
+                return config;
+            }
+            
+            this.config.loader("sass", {
+                test: /\.scss$/,
+                exclude: /node_modules/,
+                loaders: [
+                    {
+                        name: "css",
+                        query: {}
+                    },
+                    {
+                        name: "sass",
+                        query: {}
+                    }
+                ]
+            }, extractTextResolver);
+
+            expect(this.config.resolve()).to.eql({
+                module: {
+                    loaders: [
+                        {
+                            test: /\.scss$/,
+                            exclude: /node_modules/,
+                            loader: ExtractTextPlugin.extract("css?{}!sass?{}")
+                        }
+                    ]
+                }
+            });
+        });
+        
+    });
+        
 });
