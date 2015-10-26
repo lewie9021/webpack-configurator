@@ -166,7 +166,7 @@ describe("loader", function() {
             
         });
 
-        it("should support the ExtractTextPlguin that wraps the value of the 'loader' property", function() {
+        it("should support the ExtractText plugin that wraps the value of the 'loader' property", function() {
             var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
             function extractTextResolver(config) {
