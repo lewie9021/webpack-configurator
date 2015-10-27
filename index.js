@@ -24,7 +24,7 @@ Config.prototype.merge = function(config) {
         this._config = config(_.clone(this._config, true) || {});
     else
         _.merge(this._config, config, defaultMerge);
-    
+
     return this;
 };
 
@@ -138,6 +138,11 @@ Config.prototype.removePlugin = function(key) {
 // many times as you want.
 Config.prototype.resolve = function() {
     var config = _.clone(this._config, true);
+
+    // Plugins are functions and don't clone properly. Add pre-existing plugins into config object.
+    // We will add new plugins further down.
+    config.plugins = this._config.plugins || []
+
     var plugins = [];
 
     // Resolve each type of loader.
@@ -172,7 +177,7 @@ Config.prototype.resolve = function() {
 
     if (plugins.length)
         config.plugins = (config.plugins || []).concat(plugins);
-    
+
     return config;
 };
 
