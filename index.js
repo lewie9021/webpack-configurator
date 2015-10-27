@@ -112,7 +112,7 @@ Config.prototype.plugin = function(name, constructor, parameters) {
             resolvedParameters = parameters(_.clone(plugin.parameters, true) || []);
 
             if (!_.isArray(resolvedParameters))
-                throw new TypeError("The 'parameters' argument must return array.");
+                throw new TypeError("The 'parameters' argument must return an array.");
             
             plugin.parameters = resolvedParameters;
         } else {
