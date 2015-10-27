@@ -168,12 +168,8 @@ Config.prototype.resolve = function() {
         plugins.push(resolvePlugin(name, plugin));
     }
 
-    console.log('plugins-before', config.plugins)
-
     if (plugins.length)
         config.plugins = (config.plugins || []).concat(plugins);
-
-    console.log('plugins-after', config.plugins)
 
     return config;
 };
