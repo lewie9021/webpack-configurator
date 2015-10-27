@@ -98,6 +98,15 @@ Config.prototype.plugin = function(name, constructor, parameters) {
     var plugin = (_.clone(this._plugins[name], true) || {});
     var resolvedParameters;
 
+    if (!_.isString(name))
+        throw new Error("Invalid 'name' parameter. You must provide a string.");
+    
+    if (!_.isNull(constructor) && !_.isFunction(constructor))
+        throw new Error("Invalid 'constructor' parameter. You must provide either a function or null.");
+
+    if (parameters && !_.isFunction(parameters) && !_.isArray(parameters))
+        throw new TypeError("The optional 'parameters' argument must be an array or a function.");
+    
     if (parameters) {
         if (_.isFunction(parameters)) {
             resolvedParameters = parameters(_.clone(plugin.parameters, true) || []);
@@ -106,15 +115,13 @@ Config.prototype.plugin = function(name, constructor, parameters) {
                 throw new TypeError("The 'parameters' argument must return array.");
             
             plugin.parameters = resolvedParameters;
-        } else if (_.isArray(parameters)) {
-            _.merge(plugin, {parameters: parameters}, defaultMerge);
         } else {
-            throw new TypeError("The optional 'parameters' argument must be an array or a function.");
+            _.merge(plugin, {parameters: parameters}, defaultMerge);
         }
     }
     
     if (constructor)
-        plugin.constructor = constructor;
+        plugin.klass = constructor;
 
     this._plugins[name] = plugin;
 
