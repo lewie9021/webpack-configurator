@@ -79,4 +79,23 @@ describe("plugin", function() {
         });
     });
 
+    it("should enable function chaining by returning the config instance", function() {
+        var config = this.config.plugin("my-plugin", function() {});
+
+        // Reference equality.
+        expect(config).to.eq(this.config);
+    });
+
+    it("should create a 'plugins' array property on the resolved config object", function() {
+        var result;
+        
+        this.config.plugin("my-plugin", function() {});
+
+        result = this.config.resolve();
+
+        expect(result).to.have.property("plugins");
+        expect(result.plugins).to.be.an.instanceof(Array);
+        expect(result.plugins.length).to.eq(1);
+    });
+
 });
