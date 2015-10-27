@@ -62,7 +62,7 @@ describe("plugin", function() {
     it("should throw if 'parameters' is passed a function that doesn't return an array", function() {
         var config = this.config;
         var constructor = function() {};
-        var invalid = ["", [], {}, true, 5, null, undefined, false, function() {}];
+        var invalid = ["", {}, true, 5, null, undefined, false, function() {}];
 
         expect(function() {
             config.plugin("my-plugin", constructor, function() {
@@ -70,12 +70,12 @@ describe("plugin", function() {
             });
         }).to.not.throw();
         
-        invalid.forEach(function(invalidReturnValue) {
+        invalid.forEach(function(invalidReturnValue, i) {
             expect(function() {
                 config.plugin("my-plugin", constructor, function() {
                     return invalidReturnValue;
                 });
-            }).to.throw();
+            }).to.throw("The 'parameters' argument must return an array.");
         });
     });
 
