@@ -137,7 +137,12 @@ Config.prototype.removePlugin = function(key) {
 // This method returns a valid Webpack object. It should not produce any side-effects and therefore can be called as
 // many times as you want.
 Config.prototype.resolve = function() {
-    var config = _.clone(this._config, true);
+    // It's possible that non-plain objects (such as instances) could exist within the config (e.g. calling the merge
+    // method to define plugins).
+    var config = _.clone(this._config, true, function(value) {
+        if (!_.isPlainObject(value))
+            return value;
+    });
     var plugins = [];
 
     // Resolve each type of loader.
