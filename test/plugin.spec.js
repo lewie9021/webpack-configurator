@@ -99,6 +99,26 @@ describe("plugin", function() {
         expect(result.plugins.length).to.eq(1);
     });
 
+    it("should not throw if no parameters are passed", function() {
+        var config = this.config;
+
+        expect(function() {
+            config
+                .plugin("my-plugin", function() {})
+                .resolve();
+        }).to.not.throw();
+    });
+
+    it("should throw when resolving a plugin that has a null constuctor value", function() {
+        var config = this.config;
+        
+        expect(function() {
+            config
+                .plugin("my-plugin", null)
+                .resolve();
+        }).to.throw("Failed to resolve 'my-plugin'. Expected constructor not to be null.");
+    });
+    
     describe("examples", function() {
         
         it("should successfully create a simple plugin", function() {
