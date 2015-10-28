@@ -1,5 +1,6 @@
-var Config = require("../");
+var Webpack = require("webpack");
 var expect = require("chai").expect;
+var Config = require("../");
 
 describe("plugin", function() {
 
@@ -96,6 +97,49 @@ describe("plugin", function() {
         expect(result).to.have.property("plugins");
         expect(result.plugins).to.be.an.instanceof(Array);
         expect(result.plugins.length).to.eq(1);
+    });
+
+    describe("examples", function() {
+        
+        it("should successfully create a simple plugin", function() {
+            var DefinePlugin = Webpack.DefinePlugin;
+            var result;
+
+            this.config.plugin("webpack-define", DefinePlugin, [{
+                VERSION: "1.0.0"
+            }]);
+            
+            result = this.config.resolve();
+
+            expect(result.plugins[0]).to.be.instanceof(DefinePlugin);
+            expect(result.plugins[0]).to.eql(new DefinePlugin({
+                VERSION: "1.0.0"
+            }));
+        });
+
+        it("should allow parameters to be modified after initial definition", function() {
+            var DefinePlugin = Webpack.DefinePlugin;
+            var result;
+
+            this.config
+                .plugin("webpack-define", DefinePlugin, [{
+                    VERSION: "1.0.0"
+                }])
+                .plugin("webpack-define", null, function(current) {
+                    current[0].APP_NAME = "My App";
+
+                    return current;
+                });
+            
+            result = this.config.resolve();
+
+            expect(result.plugins[0]).to.be.instanceof(DefinePlugin);
+            expect(result.plugins[0]).to.eql(new DefinePlugin({
+                VERSION: "1.0.0",
+                APP_NAME: "My App"
+            }));
+        });
+
     });
 
 });
