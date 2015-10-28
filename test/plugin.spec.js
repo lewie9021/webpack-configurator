@@ -111,12 +111,20 @@ describe("plugin", function() {
 
     it("should throw when resolving a plugin that has a null constuctor value", function() {
         var config = this.config;
+        var config2 = new Config();
         
         expect(function() {
             config
                 .plugin("my-plugin", null)
                 .resolve();
         }).to.throw("Failed to resolve 'my-plugin'. Expected constructor not to be null.");
+
+        // Ensure the error message is dynamic.
+        expect(function() {
+            config2
+                .plugin("another-plugin", null)
+                .resolve();
+        }).to.throw("Failed to resolve 'another-plugin'. Expected constructor not to be null.");
     });
     
     describe("examples", function() {
