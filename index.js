@@ -20,10 +20,15 @@ Config.prototype.merge = function(config) {
     if (!_.isObject(config) && !_.isFunction(config))
         throw new Error("Invalid Parameter. You must provide either an object or a function.");
     
-    if (typeof config == "function")
-        this._config = config(_.clone(this._config, true) || {});
-    else
+    if (typeof config == "function") {
+        var clonedConfig = _.clone(this._config, true, function(value) {
+            if (!_.isPlainObject(value))
+            return value;
+        });
+        this._config = config(clonedConfig || {});
+    } else {
         _.merge(this._config, config, defaultMerge);
+    }
     
     return this;
 };
