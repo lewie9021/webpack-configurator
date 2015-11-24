@@ -1,5 +1,5 @@
-var Config = require("../");
 var expect = require("chai").expect;
+var Config = require("../");
 
 describe("loader", function() {
 
