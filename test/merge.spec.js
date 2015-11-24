@@ -1,5 +1,6 @@
-var Config = require("../");
+var Webpack = require("webpack");
 var expect = require("chai").expect;
+var Config = require("../");
 
 describe("merge", function() {
 
@@ -44,6 +45,34 @@ describe("merge", function() {
         expect(this.config.resolve()).to.eql({
             devtool: "inline-source-map"
         });
+    });
+
+    it("should reference (not clone) complex objects when a function is passed", function() {
+        var definePlugin = new Webpack.DefinePlugin({
+            VERSION: JSON.stringify("1.0.0")
+        });
+        var plugins;
+        
+        this.config.merge(function() {
+            return {
+                plugins: [
+                    definePlugin
+                ]
+            };
+        });
+
+        plugins = this.config.resolve().plugins;
+
+        // Ensure it's a reference and not a clone.
+        expect(plugins[0]).to.eq(definePlugin);
+
+        // Just to for sanity sake. If it was cloned, this would fail.
+        expect(plugins[0]).not.to.eq(
+            new Webpack.DefinePlugin({
+                VERSION: JSON.stringify("1.0.0")
+            })
+        );
+       
     });
 
     it("should return the config instance to allow chaining", function() {
