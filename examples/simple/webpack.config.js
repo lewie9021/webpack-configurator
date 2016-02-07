@@ -6,10 +6,11 @@ var Config = require("../../");
 var loader = Config.loader;
 var plugin = Config.pluign;
 
-// Helper function
+// Helper functions
 // Takes an array/object of factories such as plugins and loaders
 // and calls their resolve method.
 var resolve = Config.resolve;
+var defaults = Config.defaults;
 
 var dust = loader({
     test: /\.dust$/,
@@ -32,7 +33,7 @@ var webpackDefine = plugin(Webpack.DefinePlugin, {
 // Also accepts a function.
 sass.merge({
     loaders: ["sass?indentedSyntax"]
-});
+}, defaults.merge);
 
 module.exports = {
     entry: "./main.js",
