@@ -2,31 +2,48 @@ var Path = require("path");
 var Webpack = require("webpack");
 var Config = require("../../");
 
-module.exports = (function() {
-    var config = new Config();
+// Factory functions
+var loader = Config.loader;
+var plugin = Config.pluign;
 
-    config.merge({
-        entry: "./main.js",
-        output: {
-            filename: "bundle.js"       
-        }
-    });
+// Helper function
+// Takes an array/object of factories such as plugins and loaders
+// and calls their resolve method.
+var resolve = Config.resolve;
 
-    config.loader("dustjs-linkedin", {
-        test: /\.dust$/,
-        query: {
-            path: Path.join(__dirname, "views")
-        }
-    });
+var dust = loader({
+    test: /\.dust$/,
+    query: {
+        path: Path.join(__dirname, "views")
+    }
+});
 
-    config.loader("sass", {
-        test: /\.scss$/,
-        loader: "style!css!sass?indentedSyntax"
-    });
+var sass = loader({
+    test: /\.scss$/,
+    loaders: ["style", "css"]
+});
 
-    config.plugin("webpack-define", Webpack.DefinePlugin, [{
-        VERSION: "1.0.0"
-    }]);
+var webpackDefine = plugin(Webpack.DefinePlugin, {
+    VERSION: "1.0.0"
+});
 
-    return config.resolve();
-})();
+// Extend sass loaders property
+// The default customizer behaviour will use ../../lib/default/merge.js.
+// Also accepts a function.
+sass.merge({
+    loaders: ["sass?indentedSyntax"]
+});
+
+module.exports = {
+    entry: "./main.js",
+    output: {
+        filename: "bundle.js"
+    },
+    loaders: resolve([
+        dust,
+        sass
+    ]),
+    plugins: resolve([
+        webpackDefine
+    ])
+};
