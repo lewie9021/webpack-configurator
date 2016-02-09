@@ -10,16 +10,16 @@ module.exports = {
     output: {
         filename: "bundle.js"
     },
-    loaders: {
-        dust: loader({
+    loaders: [
+        loader({
             test: /\.dust$/,
             query: {
                 path: Path.join(__dirname, "views")
             }
         }),
-        sass: loader({
+        loader({
             test: /\.scss$/,
             loader: ["style", "css", "sass"]
         })
-    }
+    ]
 };

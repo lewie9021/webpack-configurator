@@ -2,7 +2,6 @@ var Path = require("path");
 var Webpack = require("webpack");
 var Config = require("webpack-configurator");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
-
 var Base = require("./base.config");
 
 // Helpers
@@ -10,8 +9,8 @@ var merge = Config.merge;
 var resolve = Config.resolve;
 
 // Loaders
-var dust = Base.loaders.dust;
-var sass = Base.loaders.sass;
+var dust = Base.loaders[0];
+var sass = Base.loaders[1];
 
 module.exports = merge(Base, {
     devtool: "source-map",
@@ -23,6 +22,7 @@ module.exports = merge(Base, {
     loaders: resolve([
         dust,
         sass.merge(function(config) {
+            // Apply the dev queries.
             var loaders = config.loader.map(function(loader) {
                 if (loader === "style")
                     return loader;
@@ -30,6 +30,7 @@ module.exports = merge(Base, {
                 return loader + "?" + JSON.stringify({sourceMap: true});
             });
 
+            // Return only what we want to merge.
             return {
                 loader: ExtractTextPlugin.extract(loaders)
             };
