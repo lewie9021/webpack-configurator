@@ -12,30 +12,32 @@ var resolve = Config.resolve;
 var dust = Base.loaders[0];
 var sass = Base.loaders[1];
 
-module.exports = merge(Base, {
+sass
+    // Set the query options.
+    .queries({
+        css: {sourceMap: true},
+        sass: {sourceMap: true}
+    })
+    // Apply extract text plugin.
+    // We use resolveMerge as this will return the queries set above.
+    // You can provide a property to directly merge to.
+    .resolveMerge("loaders", function(config) {
+        return ExtractTextPlugin.extract(config.loaders);
+    });
+
+module.exports = merge(Base.config, {
     devtool: "source-map",
     watch: true,
     entry: [
         "webpack-dev-server/client?http://localhost:3000",
         Path.join(__dirname, "src", "index.js")
     ],
-    loaders: resolve([
-        dust,
-        sass.merge(function(config) {
-            // Apply the dev queries.
-            var loaders = config.loader.map(function(loader) {
-                if (loader === "style")
-                    return loader;
-
-                return loader + "?" + JSON.stringify({sourceMap: true});
-            });
-
-            // Return only what we want to merge.
-            return {
-                loader: ExtractTextPlugin.extract(loaders)
-            };
-        })
-    ]),
+    module: {
+        loaders: resolve([
+            dust,
+            sass
+        ])
+    },
     plugins: [
         new ExtractTextPlugin("theme.css"),
         new Webpack.HotModuleReplacementPlugin()
