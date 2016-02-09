@@ -6,10 +6,12 @@ var Base = require("./base.config");
 var merge = Config.merge;
 var resolve = Config.resolve;
 
-module.exports = merge(Base, {
+module.exports = merge(Base.config, {
     devtool: "source-map",
     watch: true,
-    loaders: resolve(Base.loaders),
+    module: {
+        loaders: resolve(Base.loaders)
+    },
     plugins: [
         new Webpack.optimize.UglifyJsPlugin({
             compress: {
