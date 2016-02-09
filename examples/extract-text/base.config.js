@@ -6,10 +6,14 @@ var Config = require("webpack-configurator");
 var loader = Config.loader;
 
 module.exports = {
-    entry: "./main.js",
-    output: {
-        filename: "bundle.js"
+    // Generic Webpack configuration.
+    config: {
+        entry: "./main.js",
+        output: {
+            filename: "bundle.js"
+        }
     },
+    // Our basic loaders.
     loaders: [
         loader({
             test: /\.dust$/,
@@ -19,7 +23,7 @@ module.exports = {
         }),
         loader({
             test: /\.scss$/,
-            loader: ["style", "css", "sass"]
+            loaders: ["style", "css", "sass"]
         })
     ]
 };
