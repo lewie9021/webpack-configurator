@@ -12,6 +12,20 @@ In a number of my old projects, I found it difficult to DRY up the configuration
 
 ## API
 
+* [Loaders](#loaders)
+  * [merge](#loadermerge)
+  * [set](#loaderset)
+  * [resolve](#loaderresolve)
+* [Plugins](#plugins)
+  * [merge](#pluginmerge)
+  * [set](#pluginset)
+  * [resolve](#pluginresolve)
+* [Utilities](#utilities)
+  * [merge](#utilitiesmerge)
+  * [resolveAll](#utilitiesresolveall)
+* [Helpers](#helpers)
+  * [concatMerge](#helpersconcatmerge)
+
 ### Loaders
 
 Complex configurations often modify the properties of loaders. This utility helps aid composabilty by providing a number of methods that cater to common use cases. The example below shows how to construct a loader:
@@ -92,11 +106,11 @@ babel.merge("loaders", function(config, loader) {
 
 Define merge behaviour example:
 ```javascript
-var Defaults = require("webpack-configurator/defaults");
+var Helpers = require("webpack-configurator/helpers");
 
 babel.merge("query", {
     presets: ["react"]
-}, Defaults.concatMerge);
+}, Helpers.concatMerge);
 ```
 
 #### loader.set
@@ -137,6 +151,8 @@ babel.set("query", {
 
 Resolve set example:
 ```javascript
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
+
 babel.set("loaders", function(config, loader) {
     var resolved = loader.resolve();
 
@@ -162,8 +178,12 @@ Minimum requirements for a loader:
 
 ### Plugins
 
-### Merging
+### Utilities
 
-### Resolving
+#### Config.merge
 
-### Defaults
+#### Config.resolveAll
+
+### Helpers
+
+#### concatMerge
