@@ -14,7 +14,7 @@ In a number of my old projects, I found it difficult to DRY up the configuration
 
 ### Loaders
 
-Complex configurations often modify the properties of loaders. This utility helps aid composabilty by providing a number of methods that cater to common issues. The example below shows how to construct a loader:
+Complex configurations often modify the properties of loaders. This utility helps aid composabilty by providing a number of methods that cater to common use cases. The example below shows how to construct a loader:
 
 ```javascript
 var Config = require("webpack-configurator");
@@ -29,6 +29,10 @@ var babel = Config.loader({
 ```
 
 The returned value is a loader object that has the following methods:
+
+<!---
+Note: all methods are chainable.
+-->
 
 #### loader.merge
 
@@ -77,6 +81,15 @@ babel.merge("query", function(config) {
 });
 ```
 
+Resolve merge example:
+```javascript
+babel.merge("loaders", function(config, loader) {
+    var resolved = loader.resolve();
+
+    return ExtractTextPlugin.extract(resolved.loaders);
+});
+```
+
 Define merge behaviour example:
 ```javascript
 var Defaults = require("webpack-configurator/defaults");
@@ -122,6 +135,15 @@ babel.set("query", {
 });
 ```
 
+Resolve set example:
+```javascript
+babel.set("loaders", function(config, loader) {
+    var resolved = loader.resolve();
+
+    return ExtractTextPlugin.extract(resolved.loaders);
+});
+```
+
 #### loader.resolve
 
 <!---
@@ -136,16 +158,6 @@ Can only return the following properties (note: either 'loader' and 'loaders'):
 Minimum requirements for a loader:
 - test [Regex]
 - loader [String] | loaders [Array -> String]
--->
-
-#### loader.resolveMerge
-
-<!---
-This is a combination of loader.resolve and loader.merge.
-See: https://github.com/lewie9021/webpack-configurator/blob/2.0.0/examples/extract-text/dev.config.js
-
-This method only accepts a function when for the value parameter
-It provides the configuration in a resolved format.
 -->
 
 ### Plugins
