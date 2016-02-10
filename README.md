@@ -30,6 +30,7 @@ In a number of my old projects, I found it difficult to DRY up the configuration
 
 Complex configurations often modify the properties of loaders. This utility helps aid composabilty by providing a number of methods that cater to common use cases. The example below shows how to construct a loader:
 
+Basic example:
 ```javascript
 var Config = require("webpack-configurator");
 
@@ -42,7 +43,24 @@ var babel = Config.loader({
 });
 ```
 
-The returned value is a loader object that has the following methods:
+Multi-declaration example:
+```javascript
+var Config = require("webpack-configurator");
+
+var loaders = Config.loaders([
+    {
+        test: /\.jsx?/,
+        loader: "babel",
+        query: {
+            presets: ["es2015"]
+        }
+    },
+    {
+        test: /\.scss$/,
+        loaders: ["style", "css", "sass"]
+    }
+]);
+```
 
 <!---
 Note: all methods are chainable.
@@ -178,6 +196,7 @@ Minimum requirements for a loader:
 
 ### Plugins
 
+Basic example:
 ```javascript
 var Webpack = require("webpack");
 var Config = require("webpack-configurator");
@@ -187,7 +206,26 @@ var webpackDefine = Config.plugin(Webpack.DefinePlugin, [{
 }]);
 ```
 
-The returned value is a plugin object that has the following methods:
+Multi-declaration example:
+```javascript
+var Webpack = require("webpack");
+var Config = require("webpack-configurator");
+
+var plugins = Config.plugins([
+    {
+        plugin: Webpack.DefinePlugin,
+        parameters: [{
+            VERSION: JSON.stringify("1.0.1")
+        }]
+    },
+    {
+        plugin: Webpack.UglifyJsPlugin,
+        parameters: [{
+            compress: {warnings: false}
+        }]
+    }
+]);
+```
 
 <!---
 Note: all methods are chainable.
