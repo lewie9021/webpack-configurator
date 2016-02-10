@@ -178,6 +178,69 @@ Minimum requirements for a loader:
 
 ### Plugins
 
+```javascript
+var Webpack = require("webpack");
+var Config = require("webpack-configurator");
+
+var webpackDefine = Config.plugin(Webpack.DefinePlugin, [{
+    VERSION: JSON.stringify("1.0.1"),
+}]);
+```
+
+The returned value is a plugin object that has the following methods:
+
+<!---
+Note: all methods are chainable.
+-->
+
+#### plugin.merge
+
+Basic example:
+```javascript
+webpackDefine.merge([{
+    TWO: "1+1"
+}]);
+```
+
+Property specific example:
+```javascript
+webpackDefine.merge(0, {
+    TWO: "1+1"
+});
+```
+
+Another property specific example:
+```javascript
+webpackDefine.merge({
+    0: {TWO: "1+1"}
+});
+```
+
+#### plugin.set
+
+Basic example:
+```javascript
+webpackDefine.set([{
+    TWO: "1+1"
+}]);
+```
+
+Property specific example:
+```javascript
+webpackDefine.set(0, {
+    TWO: "1+1"
+});
+```
+
+Another property specific example:
+```javascript
+webpackDefine.set({
+    0: {TWO: "1+1"}
+});
+```
+
+#### plugin.resolve
+
 ### Utilities
 
 #### Config.merge
