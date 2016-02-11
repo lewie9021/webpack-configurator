@@ -169,9 +169,19 @@ babel.set("query", {
 
 Resolve set example:
 ```javascript
+var Config = require("webpack-configurator");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-babel.set("loaders", function(config, loader) {
+var sass = Config.loader({
+    test: /\.scss$/,
+    loaders: ["style", "css", "sass"],
+    queries: {
+        css: {sourceMap: true},
+        sass: {sourceMap: true}
+    }
+});
+
+sass.set("loaders", function(config, loader) {
     var resolved = loader.resolve();
 
     return ExtractTextPlugin.extract(resolved.loaders);
