@@ -201,9 +201,12 @@ Basic example:
 var Webpack = require("webpack");
 var Config = require("webpack-configurator");
 
-var webpackDefine = Config.plugin(Webpack.DefinePlugin, [{
-    VERSION: JSON.stringify("1.0.1"),
-}]);
+var webpackDefine = Config.plugin({
+    plugin: Webpack.DefinePlugin,
+    parameters: [{
+        VERSION: JSON.stringify("1.0.1"),
+    }]
+});
 ```
 
 Multi-declaration example:
