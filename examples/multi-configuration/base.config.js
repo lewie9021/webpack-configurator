@@ -1,7 +1,6 @@
 var Path = require("path");
 var Config = require("webpack-configurator");
 
-var loader = Config.loader;
 var srcPath = Path.join(__dirname, "src");
 var outputPath = Path.join(__dirname, "dist");
 
@@ -20,12 +19,12 @@ module.exports = {
         },
     },
     // Our basic loaders.
-    loaders: [
+    loaders: Config.loaders([
         // Enable ES6 & JSX syntax.
-        loader({
+        {
             test: /\.jsx?$/,
             loader: "babel",
             include: srcPath
-        })
-    ]
+        }
+    ])
 };

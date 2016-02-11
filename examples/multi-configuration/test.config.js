@@ -4,7 +4,7 @@ var Config = require("webpack-configurator");
 var Base = require("./base.config");
 
 var merge = Config.merge;
-var resolve = Config.resolve;
+var resolveAll = Config.resolveAll;
 
 module.exports = merge(Base.config, {
     devtool: "source-map",
@@ -15,6 +15,6 @@ module.exports = merge(Base.config, {
         }
     },
     module: {
-        loaders: resolve(Base.loaders)
+        loaders: resolveAll(Base.loaders)
     }
 });
