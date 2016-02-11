@@ -6,7 +6,7 @@ var Base = require("./base.config");
 
 // Helpers
 var merge = Config.merge;
-var resolve = Config.resolve;
+var resolveAll = Config.resolveAll;
 
 // Loaders
 var dust = Base.loaders[0];
@@ -14,15 +14,15 @@ var sass = Base.loaders[1];
 
 sass
     // Set the query options.
-    .queries({
+    .set("queries", {
         css: {sourceMap: true},
         sass: {sourceMap: true}
     })
     // Apply extract text plugin.
-    // We use resolveMerge as this will return the queries set above.
-    // You can provide a property to directly merge to.
-    .resolveMerge("loaders", function(config) {
-        return ExtractTextPlugin.extract(config.loaders);
+    .set("loaders", function(config, loader) {
+        var resolved = loader.resolve();
+
+        return ExtractTextPlugin.extract(resolved.loaders);
     });
 
 module.exports = merge(Base.config, {
@@ -33,10 +33,7 @@ module.exports = merge(Base.config, {
         Path.join(__dirname, "src", "index.js")
     ],
     module: {
-        loaders: resolve([
-            dust,
-            sass
-        ])
+        loaders: resolveAll(Base.loaders)
     },
     plugins: [
         new ExtractTextPlugin("theme.css"),

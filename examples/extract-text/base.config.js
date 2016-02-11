@@ -14,16 +14,17 @@ module.exports = {
         }
     },
     // Our basic loaders.
-    loaders: [
-        loader({
+    loaders: Config.loaders([
+        {
             test: /\.dust$/,
+            loader: "dustjs-linkedin",
             query: {
                 path: Path.join(__dirname, "views")
             }
-        }),
-        loader({
+        },
+        {
             test: /\.scss$/,
             loaders: ["style", "css", "sass"]
-        })
-    ]
+        }
+    ])
 };
