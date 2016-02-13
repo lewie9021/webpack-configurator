@@ -300,8 +300,7 @@ Essentially does: return new Plugin(...parameters);
 
 #### Config.merge
 
-A generalised merge utility. It works in a similar way to loader.merge and
-plugin.merge, only this function has no validation on properties.
+A generalised merge utility. It works in a similar way to loader.merge and plugin.merge, only this function has no validation on properties.
 
 Basic example:
 
@@ -323,9 +322,7 @@ module.exports = Config.merge(base, {
 
 #### Config.resolveAll
 
-Useful when a configuration has several loaders or plugins. Each loader and
-plugin has a .resolve method. This utility ill call said method and return
-an array of resolved values.
+Useful when a configuration has several loaders or plugins. Each loader and plugin has a .resolve method. This utility ill call said method and return an array of resolved values.
 
 Basic example:
 
@@ -355,3 +352,43 @@ module.exports = {
 ### Helpers
 
 #### concatMerge
+
+By default, merges will overwrite arrays. This helper provides a simple implementation that overrides said behaviour.
+
+Basic example:
+
+```javascript
+var Config = require("webpack-configurator");
+
+var helpers = Config.helpers;
+var sass = Config.loader({
+    test: /\.scss$/,
+    loaders: ["style", "css"]
+});
+
+sass.merge({
+    loaders: ["sass"]
+}, helpers.concatMerge());
+```
+
+Prepend example:
+
+```javascript
+var Config = require("webpack-configurator");
+
+var helpers = Config.helpers;
+var base = {
+    entry: [
+        "./main.js"
+    ],
+    output: {
+        filename: "bundle.js"
+    }
+};
+
+module.exports = Config.merge(base, {
+    entry: [
+        "webpack-dev-server/client?http://localhost:8080"
+    ]
+}, helpers.concatMerge(true));
+```
