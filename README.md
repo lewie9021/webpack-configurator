@@ -292,9 +292,34 @@ webpackDefine.set({
 
 #### plugin.resolve
 
+<!---
+Essentially does: return new Plugin(...parameters);
+-->
+
 ### Utilities
 
 #### Config.merge
+
+A generalised merge utility. It works in a similar way to loader.merge and
+plugin.merge, only this function has no validation on properties.
+
+Basic example:
+
+```javascript
+var Config = require("webpack-configurator");
+
+var base = {
+    entry: "./base.entry.js",
+    output: {
+        filename: "bundle.js"
+    }
+};
+
+module.exports = Config.merge(base, {
+    devtool: "source-map",
+    entry: "./dev.entry.js",
+});
+```
 
 #### Config.resolveAll
 
