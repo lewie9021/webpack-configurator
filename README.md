@@ -21,10 +21,10 @@ In a number of my old projects, I found it difficult to DRY up the configuration
   * [set](#pluginset)
   * [resolve](#pluginresolve)
 * [Utilities](#utilities)
-  * [merge](#utilitiesmerge)
-  * [resolveAll](#utilitiesresolveall)
+  * [merge](#configmerge)
+  * [resolveAll](#configresolveall)
 * [Helpers](#helpers)
-  * [concatMerge](#helpersconcatmerge)
+  * [concatMerge](#concatmerge)
 
 ### Loaders
 
