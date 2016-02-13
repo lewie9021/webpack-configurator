@@ -323,6 +323,35 @@ module.exports = Config.merge(base, {
 
 #### Config.resolveAll
 
+Useful when a configuration has several loaders or plugins. Each loader and
+plugin has a .resolve method. This utility ill call said method and return
+an array of resolved values.
+
+Basic example:
+
+```javascript
+var Config = require("webpack-configurator");
+
+var loaders = Config.loaders([
+    {
+        test: /\.jsx?$/,
+        loader: "babel"
+    },
+    {
+        test: /\.scss$/,
+        loaders: ["style", "css", "sass"]
+    }
+]);
+
+module.exports = {
+    entry: "./base.entry.js",
+    output: {
+        filename: "bundle.js"
+    },
+    loaders: Config.resolveAll(loaders)
+};
+```
+
 ### Helpers
 
 #### concatMerge
