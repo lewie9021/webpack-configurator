@@ -359,11 +359,14 @@ describe("Top-Level Exports:", function() {
     describe("utilities", function() {
 
         it("is an object", function() {
-
+            expect(Config.utilities).to.be.an("object");
         });
 
         it("exposes 'merge' and 'resolveAll'", function() {
-
+            expect(Config.utilities).to.have.all.keys([
+                "merge",
+                "resolveAll"
+            ]);
         });
 
     });
@@ -371,11 +374,13 @@ describe("Top-Level Exports:", function() {
     describe("helpers", function() {
 
         it("is an object", function() {
-
+            expect(Config.utilities).to.be.an("object");
         });
 
         it("exposes 'concatMerge'", function() {
-
+            expect(Config.utilities).to.have.all.keys([
+                "concatMerge"
+            ]);
         });
 
     });
