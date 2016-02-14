@@ -374,11 +374,11 @@ describe("Top-Level Exports:", function() {
     describe("helpers", function() {
 
         it("is an object", function() {
-            expect(Config.utilities).to.be.an("object");
+            expect(Config.helpers).to.be.an("object");
         });
 
         it("exposes 'concatMerge'", function() {
-            expect(Config.utilities).to.have.all.keys([
+            expect(Config.helpers).to.have.all.keys([
                 "concatMerge"
             ]);
         });
