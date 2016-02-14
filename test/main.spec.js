@@ -1,4 +1,5 @@
 var expect = require("chai").expect;
+var Sinon = require("sinon");
 var Config = require("../");
 
 var types = {
@@ -116,7 +117,7 @@ describe("Top-Level Exports:", function() {
         });
 
         it("throws if 'loaders' isn't an array of string values", function() {
-            var error = "You must provide an array string values for 'loaders'.";
+            var error = "You must provide an array of string values for 'loaders'.";
 
             // Check the 'happy' path.
             expect(function() {
@@ -213,28 +214,116 @@ describe("Top-Level Exports:", function() {
 
     describe("loaders", function() {
 
-        it("is a function", function() {
+        beforeEach(function() {
+            this.sandbox = Sinon.sandbox.create();
+        });
 
+        afterEach(function() {
+            this.sandbox.restore();
+        });
+
+        it("is a function", function() {
+            expect(Config.loader).to.be.a("function");
         });
 
         it("accepts an array of loader configurations", function() {
+            var error = "You must provide an array of loader configurations.";
 
+            // Check the 'happy' path.
+            expect(function() {
+                Config.loaders([
+                    {
+                        test: /\.jsx?/,
+                        loader: "babel",
+                        query: {
+                            presets: ["es2015"]
+                        }
+                    },
+                    {
+                        test: /\.scss$/,
+                        loaders: ["style", "css", "sass"]
+                    }
+                ]);
+            }).not.to.throw();
+
+            // Ensure it only accepts an array.
+            Object.keys(types).forEach(function(type) {
+                if (type == "array")
+                    return;
+
+                expect(function() {
+                    Config.loader(types[type]);
+                }).to.throw(error);
+            });
+
+            // Ensure it only accepts an array of loader configurations.
+            Object.keys(types).forEach(function(type) {
+                if (type == "object")
+                    return;
+
+                expect(function() {
+                    Config.loader([types[type]]);
+                }).to.throw(error);
+            });
         });
 
         it("calls the loader function for each configuration", function() {
+            var spy = this.sandbox.spy();
+            var babel = {
+                test: /\.jsx?/,
+                loader: "babel",
+                query: {
+                    presets: ["es2015"]
+                }
+            };
+            var sass = {
+                test: /\.jsx?/,
+                loader: "babel",
+                query: {
+                    presets: ["es2015"]
+                }
+            };
 
+            this.sandbox.stub(Config, "loader");
+
+            Config.loaders([babel, sass]);
+
+            expect(spy.callCount).to.eq(2);
+            expect(spy.firstCall.args).to.eql([babel]);
+            expect(spy.secondCall.args).to.eql([sass]);
         });
 
         it("returns an array of loader objects", function() {
+            var loaders = Config.loaders([
+                {
+                    test: /\.scss$/,
+                    loaders: ["style", "css", "sass"]
+                },
+                {
+                    test: /\.json$/,
+                    loader: "json"
+                }
+            ]);
 
-        });
+            expect(loaders).to.be.an("array");
+
+            loaders.forEach(function(loader) {
+                expect(loader)
+                    .to.be.an("object")
+                    .and.have.all.keys([
+                        "merge",
+                        "set",
+                        "resolve"
+                    ]);
+            });
+       });
 
     });
 
     describe("plugin", function() {
 
         it("is a function", function() {
-
+            expect(Config.loader).to.be.a("function");
         });
 
         it("accepts a single object as a parameter", function() {
@@ -250,7 +339,7 @@ describe("Top-Level Exports:", function() {
     describe("plugins", function() {
 
         it("is a function", function() {
-
+            expect(Config.loader).to.be.a("function");
         });
 
         it("accepts an array of plugin configurations", function() {
