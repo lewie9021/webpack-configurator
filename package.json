@@ -21,11 +21,11 @@
   },
   "license": "MIT",
   "dependencies": {
-    "lodash": "3.10.1"
+    "lodash.merge": "4.1.0"
   },
   "devDependencies": {
-    "chai": "3.4.0",
-    "extract-text-webpack-plugin": "0.8.2",
-    "mocha": "2.3.3"
+    "chai": "3.5.0",
+    "extract-text-webpack-plugin": "1.0.1",
+    "mocha": "2.4.5"
   }
 }
