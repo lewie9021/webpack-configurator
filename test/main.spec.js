@@ -323,7 +323,7 @@ describe("Top-Level Exports:", function() {
 
     });
 
-    describe("plugin", function() {
+    xdescribe("plugin", function() {
 
         it("is a function", function() {
             expect(Config.loader).to.be.a("function");
@@ -339,7 +339,7 @@ describe("Top-Level Exports:", function() {
 
     });
 
-    describe("plugins", function() {
+    xdescribe("plugins", function() {
 
         it("is a function", function() {
             expect(Config.loader).to.be.a("function");
