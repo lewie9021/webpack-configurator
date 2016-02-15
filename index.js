@@ -1,8 +1,5 @@
 var Loader = require("./lib/loader");
-
-function loaders() {
-
-}
+var Loaders = require("./lib/loaders");
 
 function merge() {
 
@@ -18,7 +15,7 @@ function concatMerge() {
 
 module.exports = {
     loader: Loader,
-    loaders: loaders,
+    loaders: Loaders,
     utilities: {
         merge: merge,
         resolveAll: resolveAll
