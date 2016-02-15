@@ -1,7 +1,9 @@
-var expect = require("chai").expect;
+var Rewire = require("rewire");
+var Chai = require("chai");
 var Sinon = require("sinon");
 var Config = require("../");
 
+var expect = Chai.expect;
 var types = {
     string: "test",
     int: 5,
@@ -251,7 +253,7 @@ describe("Top-Level Exports:", function() {
                     return;
 
                 expect(function() {
-                    Config.loader(types[type]);
+                    Config.loaders(types[type]);
                 }).to.throw(error);
             });
 
@@ -261,35 +263,37 @@ describe("Top-Level Exports:", function() {
                     return;
 
                 expect(function() {
-                    Config.loader([types[type]]);
+                    Config.loaders([types[type]]);
                 }).to.throw(error);
             });
         });
 
         it("calls the loader function for each configuration", function() {
             var spy = this.sandbox.spy();
-            var babel = {
-                test: /\.jsx?/,
-                loader: "babel",
-                query: {
-                    presets: ["es2015"]
+            // Rewire the loader module so we can spy on it.
+            var Loaders = Rewire("../lib/loaders");
+            var revert = Loaders.__set__("Loader", spy);
+            var configs = [
+                {
+                    test: /\.jsx?/,
+                    loader: "babel",
+                    query: {
+                        presets: ["es2015"]
+                    }
+                },
+                {
+                    test: /\.scss$/,
+                    loaders: ["style", "css", "sass"]
                 }
-            };
-            var sass = {
-                test: /\.jsx?/,
-                loader: "babel",
-                query: {
-                    presets: ["es2015"]
-                }
-            };
+            ];
 
-            this.sandbox.stub(Config, "loader");
+            Loaders(configs);
 
-            Config.loaders([babel, sass]);
+            expect(spy.callCount).to.eq(configs.length);
+            expect(spy.firstCall.args[0]).to.eq(configs[0]);
+            expect(spy.secondCall.args[0]).to.eq(configs[1]);
 
-            expect(spy.callCount).to.eq(2);
-            expect(spy.firstCall.args).to.eql([babel]);
-            expect(spy.secondCall.args).to.eql([sass]);
+            revert();
         });
 
         it("returns an array of loader objects", function() {
