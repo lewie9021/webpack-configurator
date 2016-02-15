@@ -10,7 +10,6 @@ var types = {
     array: [],
     object: {},
     null: null,
-    undefined: undefined,
     func: function() {},
     boolean: true
 };
