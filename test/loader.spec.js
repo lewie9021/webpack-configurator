@@ -123,7 +123,7 @@ describe("Loader:", function() {
             };
             var resolved = Loader(state).resolve();
 
-            expect(spy.firstCall.args).to.eql([state]);
+            expect(spy.secondCall.args).to.eql([state]);
 
             expect(resolved).to.eql(state);
         });
