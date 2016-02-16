@@ -24,6 +24,15 @@ describe("Loader:", function() {
             expect(loader).to.eq(this.loader);
         });
 
+        it("throws if no arguments are passed", function() {
+            var error = "You must provide either an object or function value for 'changes'.";
+            var loader = this.loader;
+
+            expect(function() {
+                loader.merge();
+            }).to.throw(error);
+        });
+
         it("accepts an object to merge with the current loader config", function() {
             var resolved = this.loader
                 .merge({
@@ -66,6 +75,14 @@ describe("Loader:", function() {
             });
         });
 
+        xit("throws if a 'changes' function doesn't return an object", function() {
+
+        });
+
+        xit("throws if 'changes' is invalid", function() {
+
+        });
+
         it("accepts a property string to allow direct merging on top-level properties", function() {
             var resolved = this.loader
                     .merge("query", {
@@ -82,9 +99,48 @@ describe("Loader:", function() {
             });
         });
 
-        // TODO: Requires the package 'lodash.mergewith'.
-        // TODO: Check loader.merge(changes, customizer) and loader.merge(property, changes, customizer).
-        it("accepts a customizer function to allow behaviour tweaking during the merge", function() {
+        xit("throws if 'property' isn't a string", function() {
+
+        });
+
+        // TODO: Completed the implementaiton of helpers/concatMerge.
+        xit("accepts a customizer function as a second parameter for tweaking merge behaviour", function() {
+            var concatMerge = Config.helpers.concatMerge;
+            var resolved = this.loader
+                    .merge({
+                        query: {
+                            presets: ["react"]
+                        }
+                    }, concatMerge)
+                    .resolve();
+
+            expect(resolved).to.eql({
+                test: /\.jsx?/,
+                loader: "babel",
+                query: {
+                    presets: ["es2015", "react"]
+                }
+            });
+        });
+
+        xit("accepts a customizer function as a third parameter for tweaking merge behaviour", function() {
+            var concatMerge = Config.helpers.concatMerge;
+            var resolved = this.loader
+                    .merge("query", {
+                            presets: ["react"]
+                    }, concatMerge)
+                    .resolve();
+
+            expect(resolved).to.eql({
+                test: /\.jsx?/,
+                loader: "babel",
+                query: {
+                    presets: ["es2015", "react"]
+                }
+            });
+        });
+
+        xit("throws if 'customizer' isn't a function", function() {
 
         });
 
