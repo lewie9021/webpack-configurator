@@ -23,12 +23,13 @@
   "license": "MIT",
   "dependencies": {
     "lodash.clonedeep": "4.1.0",
-    "lodash.merge": "4.1.0"
+    "lodash.mergewith": "4.1.0"
   },
   "devDependencies": {
     "chai": "3.5.0",
     "extract-text-webpack-plugin": "1.0.1",
     "mocha": "2.4.5",
+    "rewire": "2.5.1",
     "sinon": "1.17.3"
   }
 }
