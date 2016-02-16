@@ -4,7 +4,8 @@
   "description": "Helper for creating and extending Webpack configuration structures.",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/.bin/mocha"
+    "test": "node_modules/.bin/mocha",
+    "test:watch": "node_modules/.bin/mocha --watch"
   },
   "keywords": [
     "webpack",
