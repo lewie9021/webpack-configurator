@@ -79,7 +79,7 @@ describe("Loader:", function() {
             });
         });
 
-        it("throws if a 'changes' function doesn't return an object", function() {
+        it("throws if 'changes' doesn't return an object, given a function", function() {
             var loader = this.loader;
             var error = "You must provide an object or function (that returns an object) for 'changes'.";
 
@@ -100,7 +100,7 @@ describe("Loader:", function() {
 
         });
 
-        xit("throws if 'changes' is an invalid type, given a 'property' value", function() {
+        xit("throws if 'changes' is an invalid type, given a valid 'property' value", function() {
 
         });
 
@@ -189,6 +189,54 @@ describe("Loader:", function() {
     });
 
     describe("set", function() {
+
+        beforeEach(function() {
+            this.loader = Config.loader({
+                test: /\.jsx?/,
+                loader: "babel",
+                query: {
+                    presets: ["es2015"]
+                }
+            });
+        });
+
+        it("returns the loader object to allow chaining", function() {
+            var loader = this.loader.set({});
+
+            expect(loader).to.eq(this.loader);
+        });
+
+        xit("throws if no arguments are passed", function() {
+
+        });
+
+        xit("accepts an object that overwrites top-level properties", function() {
+
+        });
+
+        xit("accepts a function who's return value overwrites top-level properties", function() {
+
+        });
+
+        xit("throws if 'changes' doesn't return an object, given a function", function() {
+
+        });
+
+        xit("throws if 'changes' is an object but contains invalid properties", function() {
+
+        });
+
+        xit("throws if 'changes' is an invalid type, given a valid 'property' value", function() {
+
+        });
+
+        xit("accepts a property string to allow direct overwrites on top-level properties", function() {
+
+        });
+
+        xit("throws if 'property' isn't a string", function() {
+
+        });
 
     });
 
