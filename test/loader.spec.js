@@ -274,6 +274,22 @@ describe("Loader:", function() {
             expect(resolved).to.eql(state);
         });
 
+        xit("stringifies 'query' and appends the value onto 'loader'", function() {
+
+        });
+
+        xit("maps over 'queries' and stringifies each property appending to each loader in 'loaders'", function() {
+
+        });
+
+        xit("throws if neither 'loader' or 'loaders' is present within the config", function() {
+
+        });
+
+        xit("throws if 'queries' contains a top-level property isn't in 'loader' or 'loaders'", function() {
+
+        });
+
     });
 
 });
