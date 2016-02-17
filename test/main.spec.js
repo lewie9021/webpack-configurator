@@ -1,20 +1,11 @@
 var Rewire = require("rewire");
 var Chai = require("chai");
 var Sinon = require("sinon");
+var Types = require("./helpers/types");
 var Config = require("../");
 
 var expect = Chai.expect;
-var types = {
-    string: "test",
-    int: 5,
-    decimal: 4.3,
-    regex: /[A-Z]+/,
-    array: [],
-    object: {},
-    null: null,
-    func: function() {},
-    boolean: true
-};
+var types = Types();
 
 describe("Top-Level Exports:", function() {
 
