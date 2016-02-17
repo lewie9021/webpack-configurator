@@ -1,7 +1,11 @@
 var Rewire = require("rewire");
-var expect = require("chai").expect;
+var Chai = require("chai");
 var Sinon = require("sinon");
+var Types = require("./helpers/types");
 var Config = require("../");
+
+var expect = Chai.expect;
+var types = Types();
 
 describe("Loader:", function() {
 
@@ -75,11 +79,28 @@ describe("Loader:", function() {
             });
         });
 
-        xit("throws if a 'changes' function doesn't return an object", function() {
+        it("throws if a 'changes' function doesn't return an object", function() {
+            var loader = this.loader;
+            var error = "You must provide an object or function (that returns an object) for 'changes'.";
+
+            Object.keys(types).forEach(function(type) {
+                if (type == "object")
+                    return;
+
+                expect(function() {
+                    loader.merge(function() {
+                        return types[type];
+                    });
+                }).to.throw(error);
+            });
+        });
+
+        // TODO: find a way to reuse the code from within main.spec.js to ensure this mirrors the same validation.
+        xit("throws if 'changes' is an object but contains invalid properties", function() {
 
         });
 
-        xit("throws if 'changes' is invalid", function() {
+        xit("throws if 'changes' is an invalid type, given a 'property' value", function() {
 
         });
 
@@ -99,8 +120,18 @@ describe("Loader:", function() {
             });
         });
 
-        xit("throws if 'property' isn't a string", function() {
+        it("throws if 'property' isn't a string", function() {
+            var loader = this.loader;
+            var error = "You must provide a string value for 'property'.";
 
+            Object.keys(types).forEach(function(type) {
+                if (type == "string")
+                    return;
+
+                expect(function() {
+                    loader.merge(types[type], {});
+                }).to.throw(error);
+            });
         });
 
         // TODO: Completed the implementaiton of helpers/concatMerge.
@@ -140,8 +171,19 @@ describe("Loader:", function() {
             });
         });
 
-        xit("throws if 'customizer' isn't a function", function() {
+        // TODO: Test when 'customizer' is used as the second parameter.
+        it("throws if 'customizer' isn't a function", function() {
+            var loader = this.loader;
+            var error = "You must provide a function for 'customizer'.";
 
+            Object.keys(types).forEach(function(type) {
+                if (type == "func")
+                    return;
+
+                expect(function() {
+                    loader.merge("query", {}, types[type]);
+                }).to.throw(error);
+            });
         });
 
     });
