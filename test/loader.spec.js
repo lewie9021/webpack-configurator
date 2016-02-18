@@ -362,6 +362,14 @@ describe("Loader:", function() {
 
         });
 
+        xit("throws if both 'queries' and 'query' are defined", function() {
+
+        });
+
+        xit("throws if both 'loader' and 'loaders' are defined", function() {
+
+        });
+
     });
 
 });
