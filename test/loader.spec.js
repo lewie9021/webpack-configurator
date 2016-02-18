@@ -206,22 +206,71 @@ describe("Loader:", function() {
             expect(loader).to.eq(this.loader);
         });
 
-        xit("throws if no arguments are passed", function() {
+        it("throws if no arguments are passed", function() {
+            var error = "You must provide either an object or function value for 'changes'.";
+            var loader = this.loader;
+
+            expect(function() {
+                loader.set();
+            }).to.throw(error);
 
         });
 
-        xit("accepts an object that overwrites top-level properties", function() {
+        it("accepts an object that overwrites top-level properties", function() {
+            var resolved = this.loader
+                    .set({
+                        query: {
+                            plugins: ["transform-runtime"]
+                        }
+                    })
+                    .resolve();
 
+            expect(resolved).to.eql({
+                test: /\.jsx?/,
+                loader: "babel",
+                query: {
+                    plugins: ["transform-runtime"]
+                }
+            });
         });
 
-        xit("accepts a function who's return value overwrites top-level properties", function() {
+        it("accepts a function who's return value overwrites top-level properties", function() {
+            var resolved = this.loader
+                    .set(function() {
+                        return {
+                            query: {
+                                plugins: ["transform-runtime"]
+                            }
+                        };
+                    })
+                    .resolve();
 
+            expect(resolved).to.eql({
+                test: /\.jsx?/,
+                loader: "babel",
+                query: {
+                    plugins: ["transform-runtime"]
+                }
+            });
         });
 
-        xit("throws if 'changes' doesn't return an object, given a function", function() {
+        it("throws if 'changes' doesn't return an object, given a function", function() {
+            var loader = this.loader;
+            var error = "You must provide an object or function (that returns an object) for 'changes'.";
 
+            Object.keys(types).forEach(function(type) {
+                if (type == "object")
+                    return;
+
+                expect(function() {
+                    loader.set(function() {
+                        return types[type];
+                    });
+                }).to.throw(error);
+            });
         });
 
+        // TODO: find a way to reuse the code from within main.spec.js to ensure this mirrors the same validation.
         xit("throws if 'changes' is an object but contains invalid properties", function() {
 
         });
@@ -230,12 +279,35 @@ describe("Loader:", function() {
 
         });
 
-        xit("accepts a property string to allow direct overwrites on top-level properties", function() {
+        it("accepts a property string to allow direct overwrites on top-level properties", function() {
+            var resolved = this.loader
+                    .set("query", {
+                        plugins: ["transform-runtime"]
+                    })
+                    .resolve();
+
+            expect(resolved).to.eql({
+                test: /\.jsx?/,
+                loader: "babel",
+                query: {
+                    plugins: ["transform-runtime"]
+                }
+            });
 
         });
 
-        xit("throws if 'property' isn't a string", function() {
+        it("throws if 'property' isn't a string", function() {
+            var loader = this.loader;
+            var error = "You must provide a string value for 'property'.";
 
+            Object.keys(types).forEach(function(type) {
+                if (type == "string")
+                    return;
+
+                expect(function() {
+                    loader.set(types[type], {});
+                }).to.throw(error);
+            });
         });
 
     });
