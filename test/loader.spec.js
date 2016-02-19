@@ -312,6 +312,42 @@ describe("Loader:", function() {
 
     });
 
+    describe("get", function() {
+
+        beforeEach(function() {
+            this.sandbox = Sinon.sandbox.create();
+        });
+
+        afterEach(function() {
+            this.sandbox.restore();
+        });
+
+        it("returns a clone of the internal loader config", function() {
+            var Loader = Rewire("../lib/loader");
+            var DeepClone = Loader.__get__("DeepClone");
+
+            var spy = this.sandbox.spy();
+            var revert = Loader.__set__("DeepClone", function(config) {
+                spy(config);
+
+                return DeepClone(config);
+            });
+            var state = {
+                test: /\.jsx?/,
+                loader: "babel",
+                query: {
+                    presets: ["es2015"]
+                }
+            };
+            var resolved = Loader(state).get();
+
+            expect(spy.secondCall.args).to.eql([state]);
+
+            expect(resolved).to.eql(state);
+        });
+
+    });
+
     describe("resolve", function() {
 
         beforeEach(function() {
@@ -367,6 +403,10 @@ describe("Loader:", function() {
         });
 
         xit("throws if both 'loader' and 'loaders' are defined", function() {
+
+        });
+
+        xit("only returns the properties: 'test', 'exclude', 'include', 'loader', and 'loaders'", function() {
 
         });
 
