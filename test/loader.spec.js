@@ -351,18 +351,21 @@ describe("Loader:", function() {
     describe("resolve", function() {
 
         beforeEach(function() {
-            this.sandbox = Sinon.sandbox.create();
-        });
-
-        afterEach(function() {
-            this.sandbox.restore();
+            this.loader = Config.loader({
+                test: /\.jsx?/,
+                loader: "babel",
+                query: {
+                    presets: ["es2015"]
+                }
+            });
         });
 
         it("returns a clone of the internal loader config", function() {
             var Loader = Rewire("../lib/loader");
             var DeepClone = Loader.__get__("DeepClone");
 
-            var spy = this.sandbox.spy();
+            var sandbox = Sinon.sandbox.create();
+            var spy = sandbox.spy();
             var revert = Loader.__set__("DeepClone", function(config) {
                 spy(config);
 
@@ -378,8 +381,11 @@ describe("Loader:", function() {
             var resolved = Loader(state).resolve();
 
             expect(spy.secondCall.args).to.eql([state]);
-
             expect(resolved).to.eql(state);
+
+            // Revert environment changes.
+            sandbox.restore();
+            revert();
         });
 
         xit("stringifies 'query' and appends the value onto 'loader'", function() {
