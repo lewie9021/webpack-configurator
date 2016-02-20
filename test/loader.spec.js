@@ -353,10 +353,7 @@ describe("Loader:", function() {
         beforeEach(function() {
             this.loader = Config.loader({
                 test: /\.jsx?/,
-                loader: "babel",
-                query: {
-                    presets: ["es2015"]
-                }
+                loader: "babel"
             });
         });
 
@@ -388,12 +385,31 @@ describe("Loader:", function() {
             revert();
         });
 
-        xit("stringifies 'query' and appends the value onto 'loader'", function() {
+        it("stringifies 'query' and appends the value onto 'loader'", function() {
+            var resolved = this.loader
+                    .set("query", {
+                        presets: ["es2015"]
+                    })
+                    .resolve();
 
+            expect(resolved).to.eql({
+                test: /\.jsx?/,
+                loader: 'babel?{"presets": ["es2015"]}'
+            });
         });
 
-        xit("maps over 'queries' and stringifies each property appending to each loader in 'loaders'", function() {
+        it("maps over 'queries' and stringifies each property appending to each loader in 'loaders'", function() {
+            var resolved = this.loader
+                    .set("queries", {
+                        babel: {presets: ["es2015"]},
+                        test: {param: 5}
+                    })
+                    .resolve();
 
+            expect(resolved).to.eql({
+                test: /\.jsx?/,
+                loaders: ['babel?{"presets":["es2015"]}', 'test?{"param":5}']
+            });
         });
 
         xit("throws if neither 'loader' or 'loaders' is present within the config", function() {
