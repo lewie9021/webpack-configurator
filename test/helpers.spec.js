@@ -1,5 +1,4 @@
 var Chai = require("chai");
-var Sinon = require("sinon");
 var Helpers = require("../lib/helpers");
 var Merge = require("lodash.mergewith");
 
