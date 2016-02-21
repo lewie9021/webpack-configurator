@@ -23,6 +23,10 @@ describe("Top-Level Exports:", function() {
             expect(Config.loader).to.be.a("function");
         });
 
+        xit("clones 'input'", function() {
+
+        });
+
         it("accepts a single object as a parameter", function() {
             var error = "You must provide a loader config object.";
 
@@ -313,6 +317,10 @@ describe("Top-Level Exports:", function() {
 
         it("is a function", function() {
             expect(Config.plugin).to.be.a("function");
+        });
+
+        xit("clones 'input'", function() {
+
         });
 
         it("accepts a single object as a parameter", function() {
