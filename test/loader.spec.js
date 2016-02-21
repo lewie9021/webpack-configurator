@@ -603,12 +603,14 @@ describe("Loader:", function() {
                 loader: "babel",
                 ignoredProperty: "test"
             });
-            var resolved = loader.resolve();
 
-            expect(resolved).to.eql({
+            var actual = loader.resolve();
+            var expected = {
                 test: /\.jsx?/,
                 loader: "babel"
-            });
+            };
+
+            expect(actual).to.eql(expected);
         });
 
     });
