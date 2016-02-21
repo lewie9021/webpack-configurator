@@ -315,12 +315,87 @@ describe("Top-Level Exports:", function() {
             expect(Config.plugin).to.be.a("function");
         });
 
-        xit("accepts a single object as a parameter", function() {
+        it("accepts a single object as a parameter", function() {
+            var error = "You must provide a plugin config object.";
 
+            // Check the 'happy' path.
+            expect(function() {
+                Config.plugin({});
+            }).not.to.throw();
+
+            // Ensure it only accepts an object.
+            Object.keys(types).forEach(function(type) {
+                if (type == "object")
+                    return;
+
+                expect(function() {
+                    Config.plugin(types[type]);
+                }).to.throw(error);
+            });
         });
 
-        xit("returns a plugin object", function() {
+        it("returns a plugin object", function() {
+            var plugin = Config.plugin({
+                test: /\.jsx?/,
+                loader: "babel",
+                query: {
+                    presets: ["es2015"]
+                }
+            });
 
+            expect(plugin).to.be.an("object");
+            expect(plugin).to.have.all.keys([
+                "merge",
+                "get",
+                "set",
+                "resolve"
+            ]);
+        });
+
+        it("throws if 'plugin' isn't a function", function() {
+            var error = "You must provide a function for 'plugin'.";
+
+            // Check the 'happy' path.
+            expect(function() {
+                Config.plugin({
+                    plugin: function() {}
+                });
+            }).not.to.throw();
+
+            // Ensure it only accepts a function.
+            Object.keys(types).forEach(function(type) {
+                if (type == "func")
+                    return;
+
+                expect(function() {
+                    Config.plugin({
+                        plugin: types[type]
+                    });
+                }).to.throw(error);
+            });
+        });
+
+        it("throws if 'parameters' isn't an array", function() {
+            var error = "You must provide an array for 'parameters'.";
+
+            // Check the 'happy' path.
+            expect(function() {
+                Config.plugin({
+                    parameters: []
+                });
+            }).not.to.throw();
+
+            // Ensure it only accepts an array.
+            Object.keys(types).forEach(function(type) {
+                if (type == "array")
+                    return;
+
+                expect(function() {
+                    Config.plugin({
+                        parameters: types[type]
+                    });
+                }).to.throw(error);
+            });
         });
 
     });
