@@ -60,6 +60,10 @@ describe("Plugin:", function() {
 
     describe("get", function() {
 
+        it("returns a clone of the internal plugin config", function() {
+
+        });
+
     });
 
     describe("resolve", function() {
