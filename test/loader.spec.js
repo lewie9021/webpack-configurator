@@ -350,13 +350,6 @@ describe("Loader:", function() {
 
     describe("resolve", function() {
 
-        beforeEach(function() {
-            this.loader = Config.loader({
-                test: /\.jsx?/,
-                loader: "babel"
-            });
-        });
-
         it("returns a clone of the internal loader config", function() {
             var Loader = Rewire("../lib/loader");
             var DeepClone = Loader.__get__("DeepClone");
@@ -386,11 +379,14 @@ describe("Loader:", function() {
         });
 
         it("stringifies 'query' and appends the value onto 'loader'", function() {
-            var resolved = this.loader
-                    .set("query", {
-                        presets: ["es2015"]
-                    })
-                    .resolve();
+            var loader = Config.loader({
+                test: /\.jsx?/,
+                loader: "babel",
+                query: {
+                    presets: ["es2015"]
+                }
+            });
+            var resolved = loader.resolve();
 
             expect(resolved).to.eql({
                 test: /\.jsx?/,
@@ -399,37 +395,118 @@ describe("Loader:", function() {
         });
 
         it("maps over 'queries' and stringifies each property appending to each loader in 'loaders'", function() {
-            var resolved = this.loader
-                    .set("queries", {
-                        babel: {presets: ["es2015"]},
-                        test: {param: 5}
-                    })
-                    .resolve();
+            var loader = Config.loader({
+                test: /\.jsx?/,
+                loader: "babel",
+                queries: {
+                    babel: {presets: ["es2015"]},
+                    test: {param: 5}
+                }
+            });
+            var resolved = loader.resolve();
 
             expect(resolved).to.eql({
                 test: /\.jsx?/,
-                loaders: ['babel?{"presets":["es2015"]}', 'test?{"param":5}']
+                loaders: [
+                    'babel?{"presets":["es2015"]}',
+                    'test?{"param":5}'
+                ]
             });
         });
 
         xit("throws if neither 'loader' or 'loaders' is present within the config", function() {
+            var error = "A loader must have either a 'loader' or 'loaders' property to be resolved.";
+            var loader = Config.loader({
+                test: /\.jsx?/,
+                query: {
+                    presets: ["es2015"]
+                }
+            });
 
+            expect(function() {
+                loader.resolve();
+            }).to.throw(error);
         });
 
-        xit("throws if 'queries' contains a top-level property isn't in 'loader' or 'loaders'", function() {
+        xit("throws if 'queries' contains a top-level property isn't in 'loader'", function() {
+            var error = "Failed to map 'test' to a matching loader. Found 'babel'.";
+            var loader = Config.loader({
+                test: /\.jsx?/,
+                loader: "babel",
+                queries: {
+                    test: {
+                        param: 5
+                    }
+                }
+            });
 
+            expect(function() {
+                loader.resolve();
+            }).to.throw(error);
+        });
+
+        xit("throws if 'queries' contains a top-level property isn't in 'loaders'", function() {
+            var error = "Failed to map 'test' to a matching loader. Found 'style', 'css', 'sass'.";
+            var loader = Config.loader({
+                test: /\.scss/,
+                loaders: ["style", "css", "sass"],
+                queries: {
+                    sass: {sourceMap: true},
+                    css: {sourceMap: true},
+                    test: {param: 5}
+                }
+            });
+
+            expect(function() {
+                loader.resolve();
+            }).to.throw(error);
         });
 
         xit("throws if both 'queries' and 'query' are defined", function() {
+            var error = "You cannot define 'query' and 'queries' together in a loader configuration.";
+            var loader = Config.loader({
+                test: /\.jsx?/,
+                loader: "babel",
+                query: {
+                    presets: ["es2015", "react"]
+                },
+                queries: {
+                    babel: {
+                        plugins: ["transform-runtime"]
+                    }
+                }
+            });
 
+            expect(function() {
+                loader.resolve();
+            }).to.throw(error);
         });
 
         xit("throws if both 'loader' and 'loaders' are defined", function() {
+            var error = "You cannot define 'loader' and 'loaders' together in a loader configuration.";
+            var loader = Config.loader({
+                test: /\.jsx?/,
+                loader: "babel",
+                loaders: ["test"]
+            });
 
+            expect(function() {
+                loader.resolve();
+            }).to.throw(error);
         });
 
         xit("only returns the properties: 'test', 'exclude', 'include', 'loader', and 'loaders'", function() {
+            var loader = Config.loader({
+                test: /\.jsx?/,
+                loader: "babel",
+                ignoredProperty: "test"
+            });
+            var resolved = loader.resolve();
 
+            expect(resolved).to.eql({
+                test: /\.jsx?/,
+                loader: "babel"
+            });
         });
 
     });
