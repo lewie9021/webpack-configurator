@@ -173,8 +173,7 @@ describe("Loader:", function() {
             });
         });
 
-        // TODO: Completed the implementaiton of helpers/concatMerge.
-        xit("accepts a customizer function as a second parameter for tweaking merge behaviour", function() {
+        it("accepts a customizer function as a second parameter for tweaking merge behaviour", function() {
             var concatMerge = Config.helpers.concatMerge;
             var loader = Config.loader({
                 test: /\.jsx?/,
@@ -203,7 +202,7 @@ describe("Loader:", function() {
             expect(actual).to.eql(expected);
         });
 
-        xit("accepts a customizer function as a third parameter for tweaking merge behaviour", function() {
+        it("accepts a customizer function as a third parameter for tweaking merge behaviour", function() {
             var concatMerge = Config.helpers.concatMerge;
             var loader = Config.loader({
                 test: /\.jsx?/,
