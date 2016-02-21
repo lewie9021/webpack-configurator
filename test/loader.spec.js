@@ -433,34 +433,27 @@ describe("Loader:", function() {
 
     });
 
-    xdescribe("resolve", function() {
+    describe("resolve", function() {
 
         it("returns a clone of the internal loader config", function() {
-            var Loader = Rewire("../lib/loader");
-            var DeepClone = Loader.__get__("DeepClone");
-
-            var sandbox = Sinon.sandbox.create();
-            var spy = sandbox.spy();
-            var revert = Loader.__set__("DeepClone", function(config) {
-                spy(config);
-
-                return DeepClone(config);
-            });
-            var state = {
+            var loader = Config.loader({
                 test: /\.jsx?/,
-                loader: "babel",
-                query: {
-                    presets: ["es2015"]
-                }
+                loader: "babel"
+            });
+            var state = loader.resolve();
+
+            // Mutate the state.
+            // If we simply return the internal reference,
+            // it will effect the next call to loader.resolve().
+            state.loader = "test";
+
+            var actual = loader.resolve();
+            var expected = {
+                test: /\.jsx?/,
+                loader: "babel"
             };
-            var resolved = Loader(state).resolve();
 
-            expect(spy.secondCall.args).to.eql([state]);
-            expect(resolved).to.eql(state);
-
-            // Revert environment changes.
-            sandbox.restore();
-            revert();
+            expect(actual).to.eql(expected);
         });
 
         it("stringifies 'query' and appends the value onto 'loader'", function() {
@@ -471,15 +464,17 @@ describe("Loader:", function() {
                     presets: ["es2015"]
                 }
             });
-            var resolved = loader.resolve();
 
-            expect(resolved).to.eql({
+            var actual = loader.resolve();
+            var expected = {
                 test: /\.jsx?/,
                 loader: 'babel?{"presets":["es2015"]}'
-            });
+            };
+
+            expect(actual).to.eql(expected);
         });
 
-        it("maps over 'queries' and stringifies each property appending to each loader in 'loaders'", function() {
+        xit("maps over 'queries' and stringifies each property appending to each loader in 'loaders'", function() {
             var loader = Config.loader({
                 test: /\.jsx?/,
                 loader: "babel",
