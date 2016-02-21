@@ -597,7 +597,7 @@ describe("Loader:", function() {
             }).to.throw(error);
         });
 
-        xit("only returns the properties: 'test', 'exclude', 'include', 'loader', and 'loaders'", function() {
+        it("only returns the properties: 'test', 'exclude', 'include', 'loader', and 'loaders'", function() {
             var loader = Config.loader({
                 test: /\.jsx?/,
                 loader: "babel",
