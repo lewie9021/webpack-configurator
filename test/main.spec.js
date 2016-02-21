@@ -309,17 +309,17 @@ describe("Top-Level Exports:", function() {
 
     });
 
-    xdescribe("plugin", function() {
+    describe("plugin", function() {
 
         it("is a function", function() {
-            expect(Config.loader).to.be.a("function");
+            expect(Config.plugin).to.be.a("function");
         });
 
-        it("accepts a single object as a parameter", function() {
+        xit("accepts a single object as a parameter", function() {
 
         });
 
-        it("returns a plugin object", function() {
+        xit("returns a plugin object", function() {
 
         });
 
@@ -328,7 +328,7 @@ describe("Top-Level Exports:", function() {
     xdescribe("plugins", function() {
 
         it("is a function", function() {
-            expect(Config.loader).to.be.a("function");
+            expect(Config.plugins).to.be.a("function");
         });
 
         it("accepts an array of plugin configurations", function() {
