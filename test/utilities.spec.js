@@ -57,11 +57,11 @@ describe("Utilities:", function() {
             });
         });
 
-        it("throws if values in the passed array don't contain a resolve function", function() {
+        it("throws if objects in the passed array don't contain a resolve function", function() {
             var error = "You must provide values that contain a 'resolve' function.";
 
             Object.keys(types).forEach(function(type) {
-                if (type == "array")
+                if (type == "object")
                     return;
 
                 expect(function() {
@@ -70,7 +70,7 @@ describe("Utilities:", function() {
             });
 
             Object.keys(types).forEach(function(type) {
-                if (type == "function")
+                if (type == "func")
                     return;
 
                 expect(function() {
