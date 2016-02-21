@@ -47,6 +47,7 @@ describe("Top-Level Exports:", function() {
                 .to.be.an("object")
                 .and.have.all.keys([
                     "merge",
+                    "get",
                     "set",
                     "resolve"
                 ]);
@@ -306,6 +307,7 @@ describe("Top-Level Exports:", function() {
                     .to.be.an("object")
                     .and.have.all.keys([
                         "merge",
+                        "get",
                         "set",
                         "resolve"
                     ]);
