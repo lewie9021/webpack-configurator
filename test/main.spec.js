@@ -9,6 +9,14 @@ var types = Types();
 
 describe("Top-Level Exports:", function() {
 
+    beforeEach(function() {
+        this.sandbox = Sinon.sandbox.create();
+    });
+
+    afterEach(function() {
+        this.sandbox.restore();
+    });
+
     describe("loader", function() {
 
         it("is a function", function() {
@@ -43,14 +51,13 @@ describe("Top-Level Exports:", function() {
                 }
             });
 
-            expect(loader)
-                .to.be.an("object")
-                .and.have.all.keys([
-                    "merge",
-                    "get",
-                    "set",
-                    "resolve"
-                ]);
+            expect(loader).to.be.an("object");
+            expect(loader).to.have.all.keys([
+                "merge",
+                "get",
+                "set",
+                "resolve"
+            ]);
         });
 
         it("throws if 'test', 'exclude', or 'include' aren't regex values", function() {
@@ -207,37 +214,29 @@ describe("Top-Level Exports:", function() {
 
     describe("loaders", function() {
 
-        beforeEach(function() {
-            this.sandbox = Sinon.sandbox.create();
-        });
-
-        afterEach(function() {
-            this.sandbox.restore();
-        });
-
         it("is a function", function() {
             expect(Config.loader).to.be.a("function");
         });
 
         it("accepts an array of loader configurations", function() {
-            var error = "You must provide an array of loader configurations.";
+            var configs = [
+                {
+                    test: /\.jsx?/,
+                    loader: "babel"
+                },
+                {
+                    test: /\.scss$/,
+                    loaders: ["style", "css", "sass"]
+                }
+            ];
 
-            // Check the 'happy' path.
             expect(function() {
-                Config.loaders([
-                    {
-                        test: /\.jsx?/,
-                        loader: "babel",
-                        query: {
-                            presets: ["es2015"]
-                        }
-                    },
-                    {
-                        test: /\.scss$/,
-                        loaders: ["style", "css", "sass"]
-                    }
-                ]);
+                Config.loaders(configs);
             }).not.to.throw();
+        });
+
+        it("throws if an array of loader configurations isn't passed", function() {
+            var error = "You must provide an array of loader configurations.";
 
             // Ensure it only accepts an array.
             Object.keys(types).forEach(function(type) {
@@ -261,17 +260,14 @@ describe("Top-Level Exports:", function() {
         });
 
         it("calls the loader function for each configuration", function() {
-            var spy = this.sandbox.spy();
-            // Rewire the loader module so we can spy on it.
             var Loaders = Rewire("../lib/loaders");
+
+            var spy = this.sandbox.spy();
             var revert = Loaders.__set__("Loader", spy);
             var configs = [
                 {
                     test: /\.jsx?/,
-                    loader: "babel",
-                    query: {
-                        presets: ["es2015"]
-                    }
+                    loader: "babel"
                 },
                 {
                     test: /\.scss$/,
@@ -291,21 +287,18 @@ describe("Top-Level Exports:", function() {
         it("returns an array of loader objects", function() {
             var loaders = Config.loaders([
                 {
-                    test: /\.scss$/,
-                    loaders: ["style", "css", "sass"]
+                    test: /\.jsx?/,
+                    loader: "babel"
                 },
                 {
-                    test: /\.json$/,
-                    loader: "json"
+                    test: /\.scss$/,
+                    loaders: ["style", "css", "sass"]
                 }
             ]);
 
-            expect(loaders).to.be.an("array");
-
             loaders.forEach(function(loader) {
-                expect(loader)
-                    .to.be.an("object")
-                    .and.have.all.keys([
+                expect(loader).to.be.an("object");
+                expect(loader).to.have.all.keys([
                         "merge",
                         "get",
                         "set",
