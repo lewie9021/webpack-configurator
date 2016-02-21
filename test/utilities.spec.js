@@ -18,6 +18,26 @@ describe("Utilities:", function() {
 
     describe("merge", function() {
 
+        it("is a function", function() {
+            expect(Utilities.merge).to.be.a("function");
+        });
+
+        it("throws if 'object' and 'source' aren't provided", function() {
+
+        });
+
+        it("throws if 'object' 'source' aren't objects", function() {
+
+        });
+
+        it("accepts a 'customizer' function for tweaking merge behaviour", function() {
+
+        });
+
+        it("throws if 'customizer' isn't a function", function() {
+
+        });
+
     });
 
     describe("resolveAll", function() {
