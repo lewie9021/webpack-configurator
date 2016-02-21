@@ -1,6 +1,7 @@
 var Chai = require("chai");
 var Sinon = require("sinon");
 var Types = require("./helpers/types");
+var Helpers = require("../lib/helpers");
 var Utilities = require("../lib/utilities");
 
 var expect = Chai.expect;
@@ -22,20 +23,78 @@ describe("Utilities:", function() {
             expect(Utilities.merge).to.be.a("function");
         });
 
-        it("throws if 'object' and 'source' aren't provided", function() {
+        it("throws if 'object' 'source' aren't objects", function() {
+            Object.keys(types).forEach(function(type) {
+                if (type == "object")
+                    return;
 
+                // Invalid 'object' values.
+                expect(function() {
+                    Utilities.merge(types[type], {});
+                }).to.throw("You must provide an object value for 'object'.");
+
+                // Invalid 'source' values.
+                expect(function() {
+                    Utilities.merge({}, types[type]);
+                }).to.throw("You must provide an object value for 'source'.");
+            });
         });
 
-        it("throws if 'object' 'source' aren't objects", function() {
+        it("returns a merge of 'source' into 'object'", function() {
+            var object = {
+                a: "test",
+                b: ["abc"],
+                c: {
+                    d: 1
+                }
+            };
+            var source = {
+                b: ["xyz"],
+                c: {
+                    e: 4
+                }
+            };
 
+            var actual = Utilities.merge(object, source);
+            var expected = {
+                a: "test",
+                b: ["xyz"],
+                c: {
+                    d: 1,
+                    e: 4
+                }
+            };
+
+            expect(actual).to.eql(expected);
         });
 
         it("accepts a 'customizer' function for tweaking merge behaviour", function() {
+            var object = {
+                a: ["test"]
+            };
+            var source = {
+                a: ["abc"]
+            };
 
+            var actual = Utilities.merge(object, source, Helpers.concatMerge);
+            var expected = {
+                a: ["test", "abc"]
+            };
+
+            expect(actual).to.eql(expected);
         });
 
         it("throws if 'customizer' isn't a function", function() {
+            var error = "You must provide a function for 'customizer'.";
 
+            Object.keys(types).forEach(function(type) {
+                if (type == "func")
+                    return;
+
+                expect(function() {
+                    Utilities.merge({}, {}, types[type]);
+                }).to.throw(error);
+            });
         });
 
     });
