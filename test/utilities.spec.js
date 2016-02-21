@@ -45,7 +45,7 @@ describe("Utilities:", function() {
         });
 
         it("throws if an array isn't passed", function() {
-            var error = "";
+            var error = "You must provide an array of values.";
 
             Object.keys(types).forEach(function(type) {
                 if (type == "array")
@@ -58,7 +58,7 @@ describe("Utilities:", function() {
         });
 
         it("throws if values in the passed array don't contain a resolve function", function() {
-            var error = "";
+            var error = "You must provide values that contain a 'resolve' function.";
 
             Object.keys(types).forEach(function(type) {
                 if (type == "array")
@@ -66,6 +66,17 @@ describe("Utilities:", function() {
 
                 expect(function() {
                     Utilities.resolveAll([types[type]]);
+                }).to.throw(error);
+            });
+
+            Object.keys(types).forEach(function(type) {
+                if (type == "function")
+                    return;
+
+                expect(function() {
+                    Utilities.resolveAll([
+                        {resolve: types[type]}
+                    ]);
                 }).to.throw(error);
             });
         });
