@@ -514,7 +514,7 @@ describe("Loader:", function() {
             expect(actual).to.eql(expected);
         });
 
-        xit("throws if neither 'loader' or 'loaders' is present within the config", function() {
+        it("throws if neither 'loader' or 'loaders' is present within the config", function() {
             var error = "A loader must have either a 'loader' or 'loaders' property to be resolved.";
             var loader = Config.loader({
                 test: /\.jsx?/,
