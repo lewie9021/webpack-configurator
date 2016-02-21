@@ -1,15 +1,12 @@
 var Loader = require("./lib/loader");
 var Loaders = require("./lib/loaders");
+var Helpers = require("./lib/helpers");
 
 function merge() {
 
 }
 
 function resolveAll() {
-
-}
-
-function concatMerge() {
 
 }
 
@@ -20,7 +17,5 @@ module.exports = {
         merge: merge,
         resolveAll: resolveAll
     },
-    helpers: {
-        concatMerge
-    }
+    helpers: Helpers
 };
