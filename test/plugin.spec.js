@@ -6,7 +6,7 @@ var expect = Chai.expect;
 
 describe("Plugin:", function() {
 
-    describe("merge", function() {
+    xdescribe("merge", function() {
 
         it("merges parameters, given an array for 'changes'", function() {
 
@@ -34,7 +34,7 @@ describe("Plugin:", function() {
 
     });
 
-    describe("set", function() {
+    xdescribe("set", function() {
 
         it("overwrites parameters, given an array for 'changes'", function() {
 
@@ -58,7 +58,7 @@ describe("Plugin:", function() {
 
     });
 
-    describe("get", function() {
+    xdescribe("get", function() {
 
         it("returns a clone of the internal plugin config", function() {
 
@@ -66,7 +66,7 @@ describe("Plugin:", function() {
 
     });
 
-    describe("resolve", function() {
+    xdescribe("resolve", function() {
 
     });
 
