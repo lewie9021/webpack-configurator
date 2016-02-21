@@ -584,7 +584,7 @@ describe("Loader:", function() {
             }).to.throw(error);
         });
 
-        xit("throws if both 'loader' and 'loaders' are defined", function() {
+        it("throws if both 'loader' and 'loaders' are defined", function() {
             var error = "You cannot define 'loader' and 'loaders' together in a loader configuration.";
             var loader = Config.loader({
                 test: /\.jsx?/,
