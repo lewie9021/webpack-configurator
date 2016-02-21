@@ -250,27 +250,26 @@ describe("Loader:", function() {
 
     });
 
-    xdescribe("set", function() {
-
-        beforeEach(function() {
-            this.loader = Config.loader({
-                test: /\.jsx?/,
-                loader: "babel",
-                query: {
-                    presets: ["es2015"]
-                }
-            });
-        });
+    describe("set", function() {
 
         it("returns the loader object to allow chaining", function() {
-            var loader = this.loader.set({});
+            var loader = Config.loader({
+                test: /\.jsx?/,
+                loader: "babel"
+            });
 
-            expect(loader).to.eq(this.loader);
+            var actual = loader.set({});
+            var expected = loader;
+
+            expect(actual).to.eq(expected);
         });
 
         it("throws if no arguments are passed", function() {
             var error = "You must provide either an object or function value for 'changes'.";
-            var loader = this.loader;
+            var loader = Config.loader({
+                test: /\.jsx?/,
+                loader: "babel"
+            });
 
             expect(function() {
                 loader.set();
@@ -279,46 +278,69 @@ describe("Loader:", function() {
         });
 
         it("accepts an object that overwrites top-level properties", function() {
-            var resolved = this.loader
-                    .set({
-                        query: {
-                            plugins: ["transform-runtime"]
-                        }
-                    })
-                    .resolve();
+            var loader = Config.loader({
+                test: /\.jsx?/,
+                loader: "babel",
+                query: {
+                    presets: ["es2015"]
+                }
+            });
 
-            expect(resolved).to.eql({
+            // Perform the overwrite.
+            loader.set({
+                query: {
+                    plugins: ["transform-runtime"]
+                }
+            });
+
+            var actual = loader.get();
+            var expected = {
                 test: /\.jsx?/,
                 loader: "babel",
                 query: {
                     plugins: ["transform-runtime"]
                 }
-            });
+            };
+
+            expect(actual).to.eql(expected);
         });
 
         it("accepts a function who's return value overwrites top-level properties", function() {
-            var resolved = this.loader
-                    .set(function() {
-                        return {
-                            query: {
-                                plugins: ["transform-runtime"]
-                            }
-                        };
-                    })
-                    .resolve();
+            var loader = Config.loader({
+                test: /\.jsx?/,
+                loader: "babel",
+                query: {
+                    presets: ["es2015"]
+                }
+            });
 
-            expect(resolved).to.eql({
+            // Perform the overwrite.
+            loader.set(function() {
+                return {
+                    query: {
+                        plugins: ["transform-runtime"]
+                    }
+                };
+            });
+
+            var actual = loader.get();
+            var expected = {
                 test: /\.jsx?/,
                 loader: "babel",
                 query: {
                     plugins: ["transform-runtime"]
                 }
-            });
+            };
+
+            expect(actual).to.eql(expected);
         });
 
         it("throws if 'changes' doesn't return an object, given a function", function() {
-            var loader = this.loader;
             var error = "You must provide an object or function (that returns an object) for 'changes'.";
+            var loader = Config.loader({
+                test: /\.jsx?/,
+                loader: "babel"
+            });
 
             Object.keys(types).forEach(function(type) {
                 if (type == "object")
@@ -342,25 +364,37 @@ describe("Loader:", function() {
         });
 
         it("accepts a property string to allow direct overwrites on top-level properties", function() {
-            var resolved = this.loader
-                    .set("query", {
-                        plugins: ["transform-runtime"]
-                    })
-                    .resolve();
+            var loader = Config.loader({
+                test: /\.jsx?/,
+                loader: "babel",
+                query: {
+                    presets: ["es2015"]
+                }
+            });
 
-            expect(resolved).to.eql({
+            // Perform the overwrite.
+            loader.set("query", {
+                plugins: ["transform-runtime"]
+            });
+
+            var actual = loader.get();
+            var expected = {
                 test: /\.jsx?/,
                 loader: "babel",
                 query: {
                     plugins: ["transform-runtime"]
                 }
-            });
+            };
 
+            expect(actual).to.eql(expected);
         });
 
         it("throws if 'property' isn't a string", function() {
-            var loader = this.loader;
             var error = "You must provide a string value for 'property'.";
+            var loader = Config.loader({
+                test: /\.jsx?/,
+                loader: "babel"
+            });
 
             Object.keys(types).forEach(function(type) {
                 if (type == "string")
