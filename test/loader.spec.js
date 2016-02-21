@@ -528,6 +528,7 @@ describe("Loader:", function() {
             }).to.throw(error);
         });
 
+        // TODO: Maybe this should simply warn? How can the user turn these warnings off?
         xit("throws if 'queries' contains a top-level property isn't in 'loader'", function() {
             var error = "Failed to map 'test' to a matching loader. Found 'babel'.";
             var loader = Config.loader({
@@ -545,6 +546,7 @@ describe("Loader:", function() {
             }).to.throw(error);
         });
 
+        // TODO: Maybe this should simply warn? How can the user turn these warnings off?
         xit("throws if 'queries' contains a top-level property isn't in 'loaders'", function() {
             var error = "Failed to map 'test' to a matching loader. Found 'style', 'css', 'sass'.";
             var loader = Config.loader({
@@ -562,7 +564,7 @@ describe("Loader:", function() {
             }).to.throw(error);
         });
 
-        xit("throws if both 'queries' and 'query' are defined", function() {
+        it("throws if both 'queries' and 'query' are defined", function() {
             var error = "You cannot define 'query' and 'queries' together in a loader configuration.";
             var loader = Config.loader({
                 test: /\.jsx?/,
