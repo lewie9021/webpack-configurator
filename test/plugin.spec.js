@@ -11,7 +11,7 @@ describe("Plugin:", function() {
     xdescribe("merge", function() {
 
         it("merges parameters, given an array for 'changes'", function() {
-            var plugin = Conifg.plugin({
+            var plugin = Config.plugin({
                 plugin: Webpack.definePlugin,
                 parameters: [{a: 1}, 5, "test"]
             });
