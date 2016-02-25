@@ -112,12 +112,12 @@ describe("Plugin:", function() {
                 parameters: [{a: 1}, 5, "test"]
             });
 
-            plugin.merge(2, "merge");
+            plugin.merge(2, {b: 2});
 
             var actual = plugin.get();
             var expected = {
                 plugin: Webpack.definePlugin,
-                parameters: [{a: 1}, 5, "merge"]
+                parameters: [{a: 1}, 5, {b: 2}]
             };
 
             expect(actual).to.eql(expected);
