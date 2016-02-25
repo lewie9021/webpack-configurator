@@ -8,7 +8,7 @@ var types = Types();
 
 describe("Plugin:", function() {
 
-    xdescribe("merge", function() {
+    describe("merge", function() {
 
         it("merges parameters, given an array for 'changes'", function() {
             var plugin = Config.plugin({
@@ -41,7 +41,7 @@ describe("Plugin:", function() {
             var actual = plugin.get();
             var expected = {
                 plugin: Webpack.definePlugin,
-                parameters: [{a: 1, b: 2}, 3, {c: 3}]
+                parameters: [{a: 1, b: 2}, 5, {c: 3}]
             };
 
             expect(actual).to.eql(expected);
@@ -83,7 +83,7 @@ describe("Plugin:", function() {
             var actual = plugin.get();
             var expected = {
                 plugin: Webpack.definePlugin,
-                parameters: [{a: 1}, 5, undefined, undefined, "test"]
+                parameters: [{a: 1, b: 2}, 5, undefined, undefined, "test"]
             };
 
             expect(actual).to.eql(expected);
