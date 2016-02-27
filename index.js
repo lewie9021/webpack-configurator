@@ -8,6 +8,7 @@ module.exports = {
     loader: Loader,
     loaders: Loaders,
     plugin: Plugin,
-    utilities: Utilities,
+    merge: Utilities.merge,
+    resolveAll: Utilities.resolveAll,
     helpers: Helpers
 };
