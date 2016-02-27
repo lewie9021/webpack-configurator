@@ -357,20 +357,38 @@ describe("Plugin:", function() {
 
     });
 
-    xdescribe("resolve", function() {
+    describe("resolve", function() {
 
         it("returns an instance of 'plugin'", function() {
+            var plugin = Config.plugin({
+                plugin: Webpack.DefinePlugin
+            });
 
+            var actual = plugin.resolve();
+            var expected = new Webpack.DefinePlugin();
+
+            expect(actual).to.eql(expected);
         });
 
         it("applies 'parameters' upon initialisation", function() {
+            var plugin = Config.plugin({
+                plugin: Webpack.DefinePlugin,
+                parameters: [{
+                    VERSION: JSON.stringify("5fa3b9"),
+                    BROWSER_SUPPORTS_HTML5: true,
+                    TWO: "1+1"
+                }]
+            });
 
+            var actual = plugin.resolve();
+            var expected = new Webpack.DefinePlugin({
+                VERSION: JSON.stringify("5fa3b9"),
+                BROWSER_SUPPORTS_HTML5: true,
+                TWO: "1+1"
+            });
+
+            expect(actual).to.eql(expected);
         });
-
-        it("throws if 'plugin' isn't a function", function() {
-
-        });
-
     });
 
 });
