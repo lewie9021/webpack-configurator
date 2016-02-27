@@ -241,6 +241,61 @@ describe("Plugin:", function() {
             });
         });
 
+        it("throws if 'changes' isn't an object or array", function() {
+            var error = "You must provide either an object or array for 'changes'.";
+            var plugin = Config.plugin({
+                plugin: Webpack.definePlugin,
+                parameters: [{a: 1}, 5, "test"]
+            });
+
+            Object.keys(types).forEach(function(type) {
+                if (type == "object" || type == "array")
+                    return;
+
+                expect(function() {
+                    plugin.set(types[type]);
+                }).to.throw(error);
+            });
+        });
+
+        it("accepts a function who's return value is merged with the plugin's parameters", function() {
+            var plugin = Config.plugin({
+                plugin: Webpack.definePlugin,
+                parameters: [{a: 1}, 5, "test"]
+            });
+
+            plugin.set(function(parameters) {
+                return [{b: 2}, 3, "changed"];
+            });
+
+            var actual = plugin.get();
+            var expected = {
+                plugin: Webpack.definePlugin,
+                parameters: [{b: 2}, 3, "changed"]
+            };
+
+            expect(actual).to.eql(expected);
+        });
+
+        it("throws if 'changes' doesn't return an object or array, given a function", function() {
+            var error = "You must provide either an object or array for 'changes'.";
+            var plugin = Config.plugin({
+                plugin: Webpack.definePlugin,
+                parameters: [{a: 1}, 5, "test"]
+            });
+
+            Object.keys(types).forEach(function(type) {
+                if (type == "object" || type == "array")
+                    return;
+
+                expect(function() {
+                    plugin.set(function() {
+                        return types[type];
+                    });
+                }).to.throw(error);
+            });
+        });
+
         it("overwrites a parameter at a specific index, given an 'index' integer", function() {
             var plugin = Config.plugin({
                 plugin: Webpack.definePlugin,
