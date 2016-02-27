@@ -12,7 +12,7 @@ describe("Plugin:", function() {
 
         it("merges parameters, given an array for 'changes'", function() {
             var plugin = Config.plugin({
-                plugin: Webpack.definePlugin,
+                plugin: Webpack.DefinePlugin,
                 parameters: [{a: 1}, 5, "test"]
             });
 
@@ -20,7 +20,7 @@ describe("Plugin:", function() {
 
             var actual = plugin.get();
             var expected = {
-                plugin: Webpack.definePlugin,
+                plugin: Webpack.DefinePlugin,
                 parameters: [{a: 1, b: 2}, 3, "merge"]
             };
 
@@ -29,7 +29,7 @@ describe("Plugin:", function() {
 
         it("merges parameters at specific indexes, given a 'changes' object with numerical keys", function() {
             var plugin = Config.plugin({
-                plugin: Webpack.definePlugin,
+                plugin: Webpack.DefinePlugin,
                 parameters: [{a: 1}, 5, "test"]
             });
 
@@ -40,7 +40,7 @@ describe("Plugin:", function() {
 
             var actual = plugin.get();
             var expected = {
-                plugin: Webpack.definePlugin,
+                plugin: Webpack.DefinePlugin,
                 parameters: [{a: 1, b: 2}, 5, {c: 3}]
             };
 
@@ -50,7 +50,7 @@ describe("Plugin:", function() {
         it("throws if a 'changes' object is passed with non-numerical keys", function() {
             var error = "You must provide numerical keys when defining 'changes' as an object.";
             var plugin = Config.plugin({
-                plugin: Webpack.definePlugin,
+                plugin: Webpack.DefinePlugin,
                 parameters: [{a: 1}, 5, "test"]
             });
 
@@ -71,7 +71,7 @@ describe("Plugin:", function() {
 
         it("fills empty parameter indexes with 'undefined', given out of range keys", function() {
             var plugin = Config.plugin({
-                plugin: Webpack.definePlugin,
+                plugin: Webpack.DefinePlugin,
                 parameters: [{a: 1}, 5]
             });
 
@@ -82,7 +82,7 @@ describe("Plugin:", function() {
 
             var actual = plugin.get();
             var expected = {
-                plugin: Webpack.definePlugin,
+                plugin: Webpack.DefinePlugin,
                 parameters: [{a: 1, b: 2}, 5, undefined, undefined, "test"]
             };
 
@@ -92,7 +92,7 @@ describe("Plugin:", function() {
         it("throws if 'changes' isn't an object or array", function() {
             var error = "You must provide either an object or array for 'changes'.";
             var plugin = Config.plugin({
-                plugin: Webpack.definePlugin,
+                plugin: Webpack.DefinePlugin,
                 parameters: [{a: 1}, 5, "test"]
             });
 
@@ -108,7 +108,7 @@ describe("Plugin:", function() {
 
         it("accepts a function who's return value is merged with the plugin's parameters", function() {
             var plugin = Config.plugin({
-                plugin: Webpack.definePlugin,
+                plugin: Webpack.DefinePlugin,
                 parameters: [{a: 1}, 5, "test"]
             });
 
@@ -118,7 +118,7 @@ describe("Plugin:", function() {
 
             var actual = plugin.get();
             var expected = {
-                plugin: Webpack.definePlugin,
+                plugin: Webpack.DefinePlugin,
                 parameters: [{a: 1, b: 2}, 3, "merge"]
             };
 
@@ -128,7 +128,7 @@ describe("Plugin:", function() {
         it("throws if 'changes' doesn't return an object or array, given a function", function() {
             var error = "You must provide either an object or array for 'changes'.";
             var plugin = Config.plugin({
-                plugin: Webpack.definePlugin,
+                plugin: Webpack.DefinePlugin,
                 parameters: [{a: 1}, 5, "test"]
             });
 
@@ -146,7 +146,7 @@ describe("Plugin:", function() {
 
         it("merges a parameter at a specific index, given an 'index' integer", function() {
             var plugin = Config.plugin({
-                plugin: Webpack.definePlugin,
+                plugin: Webpack.DefinePlugin,
                 parameters: [{a: 1}, 5, "test"]
             });
 
@@ -154,7 +154,7 @@ describe("Plugin:", function() {
 
             var actual = plugin.get();
             var expected = {
-                plugin: Webpack.definePlugin,
+                plugin: Webpack.DefinePlugin,
                 parameters: [{a: 1}, 5, {b: 2}]
             };
 
@@ -164,7 +164,7 @@ describe("Plugin:", function() {
         it("throws if 'index' isn't an integer", function() {
             var error = "You must provide an integer for 'index'.";
             var plugin = Config.plugin({
-                plugin: Webpack.definePlugin,
+                plugin: Webpack.DefinePlugin,
                 parameters: [{a: 1}, 5, "test"]
             });
 
@@ -184,7 +184,7 @@ describe("Plugin:", function() {
 
         it("overwrites parameters, given an array for 'changes'", function() {
             var plugin = Config.plugin({
-                plugin: Webpack.definePlugin,
+                plugin: Webpack.DefinePlugin,
                 parameters: [{a: 1}, 5, "test"]
             });
 
@@ -192,7 +192,7 @@ describe("Plugin:", function() {
 
             var actual = plugin.get();
             var expected = {
-                plugin: Webpack.definePlugin,
+                plugin: Webpack.DefinePlugin,
                 parameters: [{b: 2}, 5, "test"]
             };
 
@@ -201,7 +201,7 @@ describe("Plugin:", function() {
 
         it("overwrites parameters at specific indexes, given a 'changes' object with numerical keys", function() {
             var plugin = Config.plugin({
-                plugin: Webpack.definePlugin,
+                plugin: Webpack.DefinePlugin,
                 parameters: [{a: 1}, 5, "test"]
             });
 
@@ -212,7 +212,7 @@ describe("Plugin:", function() {
 
             var actual = plugin.get();
             var expected = {
-                plugin: Webpack.definePlugin,
+                plugin: Webpack.DefinePlugin,
                 parameters: [{b: 2}, 5, "changed"]
             };
 
@@ -222,7 +222,7 @@ describe("Plugin:", function() {
         it("throws if a 'changes' object is passed with non-numerical keys", function() {
             var error = "You must provide numerical keys when defining 'changes' as an object.";
             var plugin = Config.plugin({
-                plugin: Webpack.definePlugin,
+                plugin: Webpack.DefinePlugin,
                 parameters: [{a: 1}, 5, "test"]
             });
 
@@ -244,7 +244,7 @@ describe("Plugin:", function() {
         it("throws if 'changes' isn't an object or array", function() {
             var error = "You must provide either an object or array for 'changes'.";
             var plugin = Config.plugin({
-                plugin: Webpack.definePlugin,
+                plugin: Webpack.DefinePlugin,
                 parameters: [{a: 1}, 5, "test"]
             });
 
@@ -260,7 +260,7 @@ describe("Plugin:", function() {
 
         it("accepts a function who's return value is merged with the plugin's parameters", function() {
             var plugin = Config.plugin({
-                plugin: Webpack.definePlugin,
+                plugin: Webpack.DefinePlugin,
                 parameters: [{a: 1}, 5, "test"]
             });
 
@@ -270,7 +270,7 @@ describe("Plugin:", function() {
 
             var actual = plugin.get();
             var expected = {
-                plugin: Webpack.definePlugin,
+                plugin: Webpack.DefinePlugin,
                 parameters: [{b: 2}, 3, "changed"]
             };
 
@@ -280,7 +280,7 @@ describe("Plugin:", function() {
         it("throws if 'changes' doesn't return an object or array, given a function", function() {
             var error = "You must provide either an object or array for 'changes'.";
             var plugin = Config.plugin({
-                plugin: Webpack.definePlugin,
+                plugin: Webpack.DefinePlugin,
                 parameters: [{a: 1}, 5, "test"]
             });
 
@@ -298,7 +298,7 @@ describe("Plugin:", function() {
 
         it("overwrites a parameter at a specific index, given an 'index' integer", function() {
             var plugin = Config.plugin({
-                plugin: Webpack.definePlugin,
+                plugin: Webpack.DefinePlugin,
                 parameters: [{a: 1}, 5, "test"]
             });
 
@@ -306,7 +306,7 @@ describe("Plugin:", function() {
 
             var actual = plugin.get();
             var expected = {
-                plugin: Webpack.definePlugin,
+                plugin: Webpack.DefinePlugin,
                 parameters: [{a: 1}, 5, "changed"]
             };
 
@@ -316,7 +316,7 @@ describe("Plugin:", function() {
         it("throws if 'index' isn't an integer", function() {
             var error = "You must provide an integer for 'index'.";
             var plugin = Config.plugin({
-                plugin: Webpack.definePlugin,
+                plugin: Webpack.DefinePlugin,
                 parameters: [{a: 1}, 5, "test"]
             });
 
@@ -332,10 +332,27 @@ describe("Plugin:", function() {
 
     });
 
-    xdescribe("get", function() {
+    describe("get", function() {
 
         it("returns a clone of the internal plugin config", function() {
+            var plugin = Config.plugin({
+                plugin: Webpack.DefinePlugin,
+                parameters: [{a: 1}, 5, "test"]
+            });
+            var state = plugin.get();
 
+            // Mutate the state.
+            // If we simply return the internal reference,
+            // it will effect the next call to plugin.get().
+            state.plugin = Webpack.optimize.UglifyJsPlugin;
+
+            var actual = plugin.get();
+            var expected = {
+                plugin: Webpack.DefinePlugin,
+                parameters: [{a: 1}, 5, "test"]
+            };
+
+            expect(actual).to.eql(expected);
         });
 
     });
