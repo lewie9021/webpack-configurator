@@ -180,26 +180,99 @@ describe("Plugin:", function() {
 
     });
 
-    xdescribe("set", function() {
+    describe("set", function() {
 
         it("overwrites parameters, given an array for 'changes'", function() {
+            var plugin = Config.plugin({
+                plugin: Webpack.definePlugin,
+                parameters: [{a: 1}, 5, "test"]
+            });
 
+            plugin.set([{b: 2}]);
+
+            var actual = plugin.get();
+            var expected = {
+                plugin: Webpack.definePlugin,
+                parameters: [{b: 2}, 5, "test"]
+            };
+
+            expect(actual).to.eql(expected);
         });
 
         it("overwrites parameters at specific indexes, given a 'changes' object with numerical keys", function() {
+            var plugin = Config.plugin({
+                plugin: Webpack.definePlugin,
+                parameters: [{a: 1}, 5, "test"]
+            });
 
+            plugin.set({
+                0: {b: 2},
+                2: "changed"
+            });
+
+            var actual = plugin.get();
+            var expected = {
+                plugin: Webpack.definePlugin,
+                parameters: [{b: 2}, 5, "changed"]
+            };
+
+            expect(actual).to.eql(expected);
         });
 
         it("throws if a 'changes' object is passed with non-numerical keys", function() {
+            var error = "You must provide numerical keys when defining 'changes' as an object.";
+            var plugin = Config.plugin({
+                plugin: Webpack.definePlugin,
+                parameters: [{a: 1}, 5, "test"]
+            });
 
+            Object.keys(types).forEach(function(type) {
+                if (type == "int")
+                    return;
+
+                var key = types[type];
+                var changes = {};
+
+                changes[key] = "test";
+
+                expect(function() {
+                    plugin.set(changes);
+                }).to.throw(error);
+            });
         });
 
         it("overwrites a parameter at a specific index, given an 'index' integer", function() {
+            var plugin = Config.plugin({
+                plugin: Webpack.definePlugin,
+                parameters: [{a: 1}, 5, "test"]
+            });
 
+            plugin.set(2, "changed");
+
+            var actual = plugin.get();
+            var expected = {
+                plugin: Webpack.definePlugin,
+                parameters: [{a: 1}, 5, "changed"]
+            };
+
+            expect(actual).to.eql(expected);
         });
 
         it("throws if 'index' isn't an integer", function() {
+            var error = "You must provide an integer for 'index'.";
+            var plugin = Config.plugin({
+                plugin: Webpack.definePlugin,
+                parameters: [{a: 1}, 5, "test"]
+            });
 
+            Object.keys(types).forEach(function(type) {
+                if (type == "int")
+                    return;
+
+                expect(function() {
+                    plugin.set(types[type], {});
+                }).to.throw(error);
+            });
         });
 
     });
