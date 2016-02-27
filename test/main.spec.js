@@ -360,6 +360,10 @@ describe("Top-Level Exports:", function() {
             ]);
         });
 
+        xit("throws if 'plugin' isn't provided", function() {
+
+        });
+
         it("throws if 'plugin' isn't a function", function() {
             var error = "You must provide a function for 'plugin'.";
 
@@ -404,6 +408,10 @@ describe("Top-Level Exports:", function() {
                     });
                 }).to.throw(error);
             });
+        });
+
+        xit("defaults 'parameters' to an empty array, if not given", function() {
+
         });
 
     });
