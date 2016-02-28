@@ -92,9 +92,9 @@ var webpackDefine = Config.plugin({
 });
 ```
 
-#### plugins
+#### ~~plugins~~
 
-You may wish to define several plugins at once. This utility provides a way to define several plugins at once, returning an array of plugin object wrappers. Below is an example of its usage:
+You may wish to define several plugins at once. This utility accepts an array of plugin configurations and returns an array of plugin object wrappers. Below is an example of its usage:
 
 ```javascript
 var Webpack = require("webpack");
