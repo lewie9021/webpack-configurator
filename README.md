@@ -20,7 +20,6 @@ In a number of my old projects, I found it difficult to DRY up the configuration
   * [x] [merge](#merge)
   * [x] [resolveAll](#resolveall)
   * [x] [helpers](#helpers)
-    * [x] [concatMerge](#concatmerge) 
 * [x] [Loader](#loader)
   * [x] [merge](#loadermerge)
   * [x] [set](#loaderset)
@@ -31,6 +30,9 @@ In a number of my old projects, I found it difficult to DRY up the configuration
   * [x] [set](#pluginset)
   * [x] [get](#pluginset)
   * [x] [resolve](#pluginresolve)
+* [x] [Helpers](#helpers)
+  * [x] [concatMerge](#concatmerge)
+  
 
 ### Loaders
 
