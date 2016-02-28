@@ -32,7 +32,30 @@ In a number of my old projects, I found it difficult to DRY up the configuration
   * [x] [resolve](#pluginresolve)
 * [x] [Helpers](#helpers)
   * [x] [concatMerge](#concatmerge)
-  
+
+### Top-Level Exports
+
+Below is a list of properties that are accessible at the top level of the module. Simply require the module into your script:
+
+```javascript
+// Note: I use Pascal case when referencing external modules.
+var Config = require("webpack-configurator");
+```
+
+#### loader
+
+#### loaders
+
+#### plugin
+
+#### plugins
+
+#### merge
+
+#### resolveAll
+
+#### helpers
+
 
 ### Loaders
 
