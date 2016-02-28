@@ -42,7 +42,7 @@ Below is a list of properties that are accessible at the top level of the module
 var Config = require("webpack-configurator");
 ```
 
-#### loader
+#### loader(config)
 
 Complex configurations often modify the properties of loaders. This utility helps aid composabilty by providing a number of methods that cater to common use cases. The example below shows how to construct a loader:
 
@@ -57,7 +57,7 @@ var babel = Config.loader({
 });
 ```
 
-#### loaders
+#### loaders(configs)
 
 It's common to find configurations with multiple loaders. This utility provides a way to define several loaders at once, returning an array of loader object wrappers. Below is an example of its usage:
 
@@ -77,7 +77,7 @@ var loaders = Config.loaders([
 ]);
 ```
 
-#### plugin
+#### plugin(config)
 
 It's sometimes difficult to customise plugins because of the way they differ from loaders. This utility makes it easier by splitting out the parameters. The plugin isn't created until the `resolve` method is called. Below is an example of its usage:
 
@@ -92,7 +92,7 @@ var webpackDefine = Config.plugin({
 });
 ```
 
-#### ~~plugins~~
+#### ~~plugins(configs)~~
 
 You may wish to define several plugins at once. This utility accepts an array of plugin configurations and returns an array of plugin object wrappers. Below is an example of its usage:
 
