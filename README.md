@@ -230,11 +230,9 @@ babel.merge("loaders", function(config, loader) {
 
 Define merge behaviour example:
 ```javascript
-var Helpers = require("webpack-configurator/helpers");
-
 babel.merge("query", {
     presets: ["react"]
-}, Helpers.concatMerge);
+}, Config.helpers.concatMerge);
 ```
 
 #### loader.set
