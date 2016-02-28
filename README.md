@@ -164,6 +164,7 @@ module.exports = {
 
 #### helpers
 
+This object contains miscellaneous functions that help resolve common problems when creating Webpack configurations. Right now, there is only one helper available 'concatMerge'. However, this number will likely increase in the future.
 
 ### Loader
 
