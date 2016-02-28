@@ -12,19 +12,25 @@ In a number of my old projects, I found it difficult to DRY up the configuration
 
 ## API
 
-* [Loaders](#loaders)
-  * [merge](#loadermerge)
-  * [set](#loaderset)
-  * [resolve](#loaderresolve)
-* [Plugins](#plugins)
-  * [merge](#pluginmerge)
-  * [set](#pluginset)
-  * [resolve](#pluginresolve)
-* [Utilities](#utilities)
-  * [merge](#configmerge)
-  * [resolveAll](#configresolveall)
-* [Helpers](#helpers)
-  * [concatMerge](#concatmerge)
+* [x] [Top-Level Exports](#toplevelexports)
+  * [x] [loader](#loader)
+  * [x] [loaders](#loaders)
+  * [x] [plugin](#plugin)
+  * [ ] [plugins](#plugins)
+  * [x] [merge](#merge)
+  * [x] [resolveAll](#resolveall)
+  * [x] [helpers](#helpers)
+    * [x] [concatMerge](#concatmerge) 
+* [x] [Loader](#loader)
+  * [x] [merge](#loadermerge)
+  * [x] [set](#loaderset)
+  * [x] [get](#loaderset)
+  * [x] [resolve](#loaderresolve)
+* [x] [Plugin](#plugin)
+  * [x] [merge](#pluginmerge)
+  * [x] [set](#pluginset)
+  * [x] [get](#pluginset)
+  * [x] [resolve](#pluginresolve)
 
 ### Loaders
 
