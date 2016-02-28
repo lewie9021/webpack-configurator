@@ -172,7 +172,7 @@ This object contains miscellaneous functions that help resolve common problems w
 Note: all methods are chainable.
 -->
 
-#### loader.merge
+#### loader.merge([property], changes, [customizer])
 
 <!---
 http://webpack.github.io/docs/configuration.html#module-loaders
@@ -235,7 +235,7 @@ babel.merge("query", {
 }, Config.helpers.concatMerge);
 ```
 
-#### loader.set
+#### loader.set([property], changes)
 
 <!---
 http://webpack.github.io/docs/configuration.html#module-loaders
@@ -292,7 +292,7 @@ sass.set("loaders", function(config, loader) {
 });
 ```
 
-#### loader.resolve
+#### loader.resolve()
 
 <!---
 http://webpack.github.io/docs/configuration.html#module-loaders
@@ -314,7 +314,7 @@ Minimum requirements for a loader:
 Note: all methods are chainable.
 -->
 
-#### plugin.merge
+#### plugin.merge([index], changes)
 
 Basic example:
 ```javascript
@@ -337,7 +337,7 @@ webpackDefine.merge({
 });
 ```
 
-#### plugin.set
+#### plugin.set([index], changes)
 
 Basic example:
 ```javascript
@@ -360,7 +360,7 @@ webpackDefine.set({
 });
 ```
 
-#### plugin.resolve
+#### plugin.resolve()
 
 <!---
 Essentially does: return new Plugin(...parameters);
