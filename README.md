@@ -44,27 +44,10 @@ var Config = require("webpack-configurator");
 
 #### loader
 
-#### loaders
-
-#### plugin
-
-#### plugins
-
-#### merge
-
-#### resolveAll
-
-#### helpers
-
-
-### Loaders
-
 Complex configurations often modify the properties of loaders. This utility helps aid composabilty by providing a number of methods that cater to common use cases. The example below shows how to construct a loader:
 
-Basic example:
 ```javascript
-var Config = require("webpack-configurator");
-
+// The contents of 'babel' is a loader object wrapper.
 var babel = Config.loader({
     test: /\.jsx?/,
     loader: "babel",
@@ -74,10 +57,11 @@ var babel = Config.loader({
 });
 ```
 
-Multi-declaration example:
-```javascript
-var Config = require("webpack-configurator");
+#### loaders
 
+It's common to find configurations with multiple loaders. This utility provides a way to define several loaders at once, returning an array of loader object wrappers. Below is an example of its usage:
+
+```javascript
 var loaders = Config.loaders([
     {
         test: /\.jsx?/,
@@ -92,6 +76,19 @@ var loaders = Config.loaders([
     }
 ]);
 ```
+
+#### plugin
+
+#### plugins
+
+#### merge
+
+#### resolveAll
+
+#### helpers
+
+
+### Loader
 
 <!---
 Note: all methods are chainable.
