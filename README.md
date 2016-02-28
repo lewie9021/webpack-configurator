@@ -117,9 +117,50 @@ var plugins = Config.plugins([
 ]);
 ```
 
-#### merge
+#### merge(object, source, [customizer])
 
-#### resolveAll
+A generalised merge utility. It works in a similar way to loader.merge and plugin.merge, only this function has no validation on properties.
+
+```javascript
+var base = {
+    entry: "./base.entry.js",
+    output: {
+        filename: "bundle.js"
+    }
+};
+
+module.exports = Config.merge(base, {
+    devtool: "source-map",
+    entry: "./dev.entry.js",
+});
+```
+
+#### resolveAll(wrappers)
+
+Useful when a configuration has several loaders or plugins. Each loader and plugin has a `resolve` method. This utility will call said method and return an array of resolved values.
+
+```javascript
+var loaders = Config.loaders([
+    {
+        test: /\.jsx?$/,
+        loader: "babel"
+    },
+    {
+        test: /\.scss$/,
+        loaders: ["style", "css", "sass"]
+    }
+]);
+
+module.exports = {
+    entry: "./base.entry.js",
+    output: {
+        filename: "bundle.js"
+    },
+    module: {
+        loaders: Config.resolveAll(loaders)
+    }
+};
+```
 
 #### helpers
 
@@ -268,7 +309,7 @@ Minimum requirements for a loader:
 - loader [String] | loaders [Array -> String]
 -->
 
-### Plugins
+### Plugin
 
 <!---
 Note: all methods are chainable.
@@ -325,59 +366,6 @@ webpackDefine.set({
 <!---
 Essentially does: return new Plugin(...parameters);
 -->
-
-### Utilities
-
-#### Config.merge
-
-A generalised merge utility. It works in a similar way to loader.merge and plugin.merge, only this function has no validation on properties.
-
-Basic example:
-
-```javascript
-var Config = require("webpack-configurator");
-
-var base = {
-    entry: "./base.entry.js",
-    output: {
-        filename: "bundle.js"
-    }
-};
-
-module.exports = Config.merge(base, {
-    devtool: "source-map",
-    entry: "./dev.entry.js",
-});
-```
-
-#### Config.resolveAll
-
-Useful when a configuration has several loaders or plugins. Each loader and plugin has a .resolve method. This utility ill call said method and return an array of resolved values.
-
-Basic example:
-
-```javascript
-var Config = require("webpack-configurator");
-
-var loaders = Config.loaders([
-    {
-        test: /\.jsx?$/,
-        loader: "babel"
-    },
-    {
-        test: /\.scss$/,
-        loaders: ["style", "css", "sass"]
-    }
-]);
-
-module.exports = {
-    entry: "./base.entry.js",
-    output: {
-        filename: "bundle.js"
-    },
-    loaders: Config.resolveAll(loaders)
-};
-```
 
 ### Helpers
 
