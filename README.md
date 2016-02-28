@@ -79,7 +79,43 @@ var loaders = Config.loaders([
 
 #### plugin
 
+It's sometimes difficult to customise plugins because of the way they differ from loaders. This utility makes it easier by splitting out the parameters. The plugin isn't created until the `resolve` method is called. Below is an example of its usage:
+
+```javascript
+var Webpack = require("webpack");
+
+var webpackDefine = Config.plugin({
+    plugin: Webpack.DefinePlugin,
+    parameters: [{
+        VERSION: JSON.stringify("1.0.1"),
+    }]
+});
+```
+
 #### plugins
+
+You may wish to define several plugins at once. This utility provides a way to define several plugins at once, returning an array of plugin object wrappers. Below is an example of its usage:
+
+```javascript
+var Webpack = require("webpack");
+
+var plugins = Config.plugins([
+    {
+        plugin: Webpack.DefinePlugin,
+        parameters: [{
+            VERSION: JSON.stringify("1.0.1")
+        }]
+    },
+    {
+        plugin: Webpack.UglifyJsPlugin,
+        parameters: [{
+            compress: {
+                warnings: false
+            }
+        }]
+    }
+]);
+```
 
 #### merge
 
@@ -233,40 +269,6 @@ Minimum requirements for a loader:
 -->
 
 ### Plugins
-
-Basic example:
-```javascript
-var Webpack = require("webpack");
-var Config = require("webpack-configurator");
-
-var webpackDefine = Config.plugin({
-    plugin: Webpack.DefinePlugin,
-    parameters: [{
-        VERSION: JSON.stringify("1.0.1"),
-    }]
-});
-```
-
-Multi-declaration example:
-```javascript
-var Webpack = require("webpack");
-var Config = require("webpack-configurator");
-
-var plugins = Config.plugins([
-    {
-        plugin: Webpack.DefinePlugin,
-        parameters: [{
-            VERSION: JSON.stringify("1.0.1")
-        }]
-    },
-    {
-        plugin: Webpack.UglifyJsPlugin,
-        parameters: [{
-            compress: {warnings: false}
-        }]
-    }
-]);
-```
 
 <!---
 Note: all methods are chainable.
