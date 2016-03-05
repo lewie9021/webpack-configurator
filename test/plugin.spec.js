@@ -125,6 +125,29 @@ describe("Plugin:", function() {
             expect(actual).to.eql(expected);
         });
 
+        it("provides a reference to the current parameters and plugin, given a function", function() {
+            var define = Config.plugin({
+                plugin: Webpack.DefinePlugin,
+                parameters: [{a: 1}, 5, "test"]
+            });
+
+            // Call the merge method with just 'changes'.
+            define.merge(function(parameters, plugin) {
+                expect(parameters).to.eql(define.get().parameters);
+                expect(plugin).to.eq(define);
+
+                return parameters;
+            });
+
+            // Call the merge method with 'index' and 'changes'.
+            define.merge(1, function(parameters, plugin) {
+                expect(parameters).to.eql(define.get().parameters);
+                expect(plugin).to.eq(define);
+
+                return parameters[1];
+            });
+        });
+
         it("throws if 'changes' doesn't return an object or array, given a function", function() {
             var error = "You must provide either an object or array for 'changes'.";
             var plugin = Config.plugin({
@@ -275,6 +298,29 @@ describe("Plugin:", function() {
             };
 
             expect(actual).to.eql(expected);
+        });
+
+        it("provides a reference to the current parameters and plugin, given a function", function() {
+            var define = Config.plugin({
+                plugin: Webpack.DefinePlugin,
+                parameters: [{a: 1}, 5, "test"]
+            });
+
+            // Call the set method with just 'changes'.
+            define.set(function(parameters, plugin) {
+                expect(parameters).to.eql(define.get().parameters);
+                expect(plugin).to.eq(define);
+
+                return parameters;
+            });
+
+            // Call the set method with 'index' and 'changes'.
+            define.set(1, function(parameters, plugin) {
+                expect(parameters).to.eql(define.get().parameters);
+                expect(plugin).to.eq(define);
+
+                return parameters[1];
+            });
         });
 
         it("throws if 'changes' doesn't return an object or array, given a function", function() {
