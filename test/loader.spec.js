@@ -379,7 +379,6 @@ describe("Loader:", function() {
         });
 
         it("provides a reference to the current config and loader, given a function", function() {
-            var concatMerge = Config.helpers.concatMerge;
             var babel = Config.loader({
                 test: /\.jsx?/,
                 loader: "babel",
