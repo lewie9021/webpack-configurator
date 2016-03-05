@@ -120,7 +120,7 @@ describe("Loader:", function() {
                 expect(config).to.eql(babel.get());
                 expect(loader).to.eq(babel);
 
-                return config;
+                    return config;
             });
 
             // Call the merge method with 'property' and 'changes'.
@@ -376,6 +376,33 @@ describe("Loader:", function() {
             };
 
             expect(actual).to.eql(expected);
+        });
+
+        it("provides a reference to the current config and loader, given a function", function() {
+            var concatMerge = Config.helpers.concatMerge;
+            var babel = Config.loader({
+                test: /\.jsx?/,
+                loader: "babel",
+                query: {
+                    presets: ["es2015"]
+                }
+            });
+
+            // Call the set method with just 'changes'.
+            babel.set(function(config, loader) {
+                expect(config).to.eql(babel.get());
+                expect(loader).to.eq(babel);
+
+                return config;
+            });
+
+            // Call the set method with 'property' and 'changes'.
+            babel.set("query", function(config, loader) {
+                expect(config).to.eql(babel.get());
+                expect(loader).to.eq(babel);
+
+                return config.query;
+            });
         });
 
         it("throws if 'changes' doesn't return an object, given a function", function() {
