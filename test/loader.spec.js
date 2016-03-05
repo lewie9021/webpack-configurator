@@ -105,6 +105,50 @@ describe("Loader:", function() {
             expect(actual).to.eql(expected);
         });
 
+        it("provides a reference to the current config and loader, given a function", function() {
+            var concatMerge = Config.helpers.concatMerge;
+            var babel = Config.loader({
+                test: /\.jsx?/,
+                loader: "babel",
+                query: {
+                    presets: ["es2015"]
+                }
+            });
+
+            // Call the merge method with just 'changes'.
+            babel.merge(function(config, loader) {
+                expect(config).to.eql(babel.get());
+                expect(loader).to.eq(babel);
+
+                return config;
+            });
+
+            // Call the merge method with 'property' and 'changes'.
+            // TODO: Not yet supported.
+            // babel.merge("query", function(config, loader) {
+            //     expect(config).to.eql(babel.get());
+            //     expect(loader).to.eq(babel);
+            //
+            //     return config.query;
+            // });
+
+            // Call the merge method with 'changes' and 'customizer'.
+            babel.merge(function(config, loader) {
+                expect(config).to.eql(babel.get());
+                expect(loader).to.eq(babel);
+
+                return config;
+            }, concatMerge);
+
+            // Call the merge method with 'property', 'changes', and 'customizer'.
+            babel.merge("query", function(config, loader) {
+                expect(config).to.eql(babel.get());
+                expect(loader).to.eq(babel);
+
+                return config.query;
+            }, concatMerge);
+        });
+
         it("throws if 'changes' doesn't return an object, given a function", function() {
             var error = "You must provide an object or function (that returns an object) for 'changes'.";
             var loader = Config.loader({
