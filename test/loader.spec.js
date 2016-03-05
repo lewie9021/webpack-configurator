@@ -1,4 +1,3 @@
-var Rewire = require("rewire");
 var Chai = require("chai");
 var Sinon = require("sinon");
 var Types = require("./helpers/types");
