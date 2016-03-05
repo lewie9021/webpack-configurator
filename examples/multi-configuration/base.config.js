@@ -1,5 +1,5 @@
 var Path = require("path");
-var Config = require("webpack-configurator");
+var Config = require("../../");
 
 var srcPath = Path.join(__dirname, "src");
 var outputPath = Path.join(__dirname, "dist");
@@ -7,7 +7,7 @@ var outputPath = Path.join(__dirname, "dist");
 module.exports = {
     // Generic Webpack configuration.
     config: {
-        entry: Path.join(__dirname, "src", "index.js"),
+        entry: Path.join(srcPath, "index.js"),
         output: {
             path: outputPath,
             filename: "bundle.js",
@@ -16,7 +16,7 @@ module.exports = {
         resolve: {
             root: srcPath,
             extensions: ["", ".jsx", ".js"]
-        },
+        }
     },
     // Our basic loaders.
     loaders: Config.loaders([
