@@ -120,7 +120,7 @@ describe("Loader:", function() {
                 expect(config).to.eql(babel.get());
                 expect(loader).to.eq(babel);
 
-                    return config;
+                return config;
             });
 
             // Call the merge method with 'property' and 'changes'.
