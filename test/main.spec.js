@@ -64,33 +64,30 @@ describe("Top-Level Exports:", function() {
             ]);
         });
 
-        it("throws if 'test', 'exclude', or 'include' aren't regex values", function() {
+        // Conditions are as stated in the docs:
+        // - Regular expressions
+        // - Strings
+        // - Functions (returning a Boolean).
+        it("throws if 'test', 'exclude', or 'include' aren't conditions", function() {
             function test(property) {
-                var error = "You must provide a regex value for '" + property + "'.";
+                var error = "You must provide either a condition or array of conditions for '" + property + "'.";
 
-                // Check the 'happy' path.
-                expect(function() {
-                    var parameter = {};
-
-                    // Assign a regex value to the given property.
-                    parameter[property] = /\.jsx?$/;
-
-                    Config.loader(parameter);
-                }).not.to.throw();
-
-                // Ensure it only accepts a regular expression.
                 Object.keys(types).forEach(function(type) {
-                    if (type == "regex")
-                        return;
-
                     var parameter = {};
 
-                    // Assign the invalid value to the given property.
+                    // Assign the valid value to the given property.
                     parameter[property] = types[type];
 
-                    expect(function() {
+                    var subject = function() {
                         Config.loader(parameter);
-                    }).to.throw(error);
+                    };
+
+                    // Check the 'happy' paths.
+                    if (type == "regex" || type == "string" || type == "func")
+                        return expect(subject).not.to.throw(error);
+
+                    // Ensure it only accepts conditions.
+                    expect(subject).to.throw(error);
                 });
             }
 
@@ -98,6 +95,36 @@ describe("Top-Level Exports:", function() {
             test("exclude");
             test("include");
         });
+
+        it("accepts an array of conditions for 'test', 'exclude', and 'include'", function() {
+            function test(property) {
+                var error = "You must provide either a condition or array of conditions for '" + property + "'.";
+
+                Object.keys(types).forEach(function(type) {
+                    var parameter = {};
+
+                    // Assign the valid value to the given property.
+                    parameter[property] = [types[type]];
+
+                    var subject = function() {
+                        Config.loader(parameter);
+                    };
+
+                    // Check the 'happy' paths.
+                    if (type == "regex" || type == "string" || type == "func")
+                        return expect(subject).not.to.throw(error);
+
+                    // Ensure it throws for arrays of invalid conditions.
+                    expect(subject).to.throw(error);
+                });
+            }
+
+            test("test");
+            test("exclude");
+            test("include");
+        });
+
+
 
         it("throws if 'loader' isn't a string value", function() {
             var error = "You must provide a string value for 'loader'.";
