@@ -83,7 +83,7 @@ describe("Top-Level Exports:", function() {
                     };
 
                     // Check the 'happy' paths.
-                    if (type == "regex" || type == "string" || type == "func")
+                    if (type == "regex" || type == "string" || type == "func" || type == "array")
                         return expect(subject).not.to.throw(error);
 
                     // Ensure it only accepts conditions.
