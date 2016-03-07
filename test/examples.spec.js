@@ -8,7 +8,7 @@ describe("Examples:", function() {
 
     describe("multi-configuration", function() {
 
-        xit("correctly resolves the dev configuration", function() {
+        it("correctly resolves the dev configuration", function() {
             var rootPath = Path.join(__dirname, "..", "examples", "multi-configuration");
             var srcPath = Path.join(rootPath, "src");
             var outputPath = Path.join(rootPath, "dist");
