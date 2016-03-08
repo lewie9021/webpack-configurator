@@ -1,6 +1,6 @@
 var Path = require("path");
 var Webpack = require("webpack");
-var Config = require("webpack-configurator");
+var Config = require("../../");
 var Base = require("./base.config");
 
 var merge = Config.merge;
