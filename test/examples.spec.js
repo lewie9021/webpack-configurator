@@ -1,5 +1,6 @@
 var Path = require("path");
 var Webpack = require("webpack");
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var Chai = require("chai");
 
 var expect = Chai.expect;
@@ -17,8 +18,6 @@ describe("Examples:", function() {
         });
 
         it("correctly resolves the dev configuration", function() {
-            var DevConfig = require("../examples/multi-configuration/dev.config");
-
             var rootPath = Path.join(__dirname, "..", "examples", "multi-configuration");
             var srcPath = Path.join(rootPath, "src");
             var outputPath = Path.join(rootPath, "dist");
@@ -126,6 +125,61 @@ describe("Examples:", function() {
                             warnings: false
                         }
                     })
+                ]
+            };
+
+            expect(actual).to.eql(expected);
+        });
+
+    });
+
+    describe("extract-test", function() {
+
+        beforeEach(function() {
+            var basePath = require.resolve("../examples/extract-text/base.config");
+
+            // Clear the require cache for the base config. This is because
+            // each mode specific config directly mutates the base.
+            delete require.cache[basePath];
+        });
+
+        xit("correctly resolves the dev configuration", function() {
+            var rootPath = Path.join(__dirname, "..", "examples", "extract-text");
+            var srcPath = Path.join(rootPath, "src");
+
+            var actual = require("../examples/extract-text/dev.config");
+            var expected = {
+                devtool: "source-map",
+                entry: [
+                    "webpack-dev-server/client?http://localhost:3000",
+                    Path.join(srcPath, "index.js")
+                ],
+                watch: true,
+                output: {
+                    filename: "bundle.js"
+                },
+                module: {
+                    loaders: [
+                        {
+                            test: /\.dust$/,
+                            loader: "dustjs-linkedin",
+                            query: {
+                                path: Path.join(srcPath, "views")
+                            }
+                        },
+                        {
+                            test: /\.scss$/,
+                            loaders: ExtractTextPlugin.extract([
+                                "style",
+                                "css?{sourceMap:true}",
+                                "sass?{sourceMap:true}"
+                            ])
+                        }
+                    ]
+                },
+                plugins: [
+                    new ExtractTextPlugin("theme.css"),
+                    new Webpack.HotModuleReplacementPlugin()
                 ]
             };
 
