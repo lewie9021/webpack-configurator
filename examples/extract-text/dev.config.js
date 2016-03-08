@@ -1,6 +1,6 @@
 var Path = require("path");
 var Webpack = require("webpack");
-var Config = require("webpack-configurator");
+var Config = require("../../");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var Base = require("./base.config");
 
