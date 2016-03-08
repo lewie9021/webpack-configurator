@@ -93,6 +93,45 @@ describe("Examples:", function() {
             expect(actual).to.eql(expected);
         });
 
+        it("correctly resolves the production configuration", function() {
+            var rootPath = Path.join(__dirname, "..", "examples", "multi-configuration");
+            var srcPath = Path.join(rootPath, "src");
+            var outputPath = Path.join(rootPath, "dist");
+
+            var actual = require("../examples/multi-configuration/prod.config");
+            var expected = {
+                devtool: "source-map",
+                entry: Path.join(srcPath, "index.js"),
+                output: {
+                    path: outputPath,
+                    filename: "bundle.js",
+                    publicPath: "/static/"
+                },
+                resolve: {
+                    root: srcPath,
+                    extensions: ["", ".jsx", ".js"]
+                },
+                module: {
+                    loaders: [
+                        {
+                            test: /\.jsx?$/,
+                            loader: "babel",
+                            include: srcPath
+                        }
+                    ]
+                },
+                plugins: [
+                    new Webpack.optimize.UglifyJsPlugin({
+                        compress: {
+                            warnings: false
+                        }
+                    })
+                ]
+            };
+
+            expect(actual).to.eql(expected);
+        });
+
     });
 
 });
