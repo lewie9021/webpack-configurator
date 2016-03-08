@@ -1,6 +1,6 @@
 var Path = require("path");
 var Webpack = require("webpack");
-var Config = require("webpack-configurator");
+var Config = require("../../");
 
 // Factory function.
 var loader = Config.loader;
@@ -19,7 +19,7 @@ module.exports = {
             test: /\.dust$/,
             loader: "dustjs-linkedin",
             query: {
-                path: Path.join(__dirname, "views")
+                path: Path.join(__dirname, "src", "views")
             }
         },
         {
