@@ -4,7 +4,6 @@
 - [ ] Document each method parameter in the docs.
 - [ ] Completed Config.plugins(configs).
 - [ ] Add test cases for each example.
-- [ ] Fix validation of Config.loader(config) for properties 'test', 'exclude' and 'include'.
 
 ## Future plans:
 
