@@ -450,7 +450,44 @@ describe("Top-Level Exports:", function() {
         });
 
         it("accepts an array of plugin configurations", function() {
+            var configs = [
+                {
+                    plugin: function() {},
+                    parameters: [123, "abc", true]
+                },
+                {
+                    plugin: function() {},
+                    parameters: ["abc", true, 123]
+                }
+            ];
 
+            expect(function() {
+                Config.plugins(configs);
+            }).not.to.throw();
+        });
+
+        it("throws if an array of plugin configurations isn't passed", function() {
+            var error = "You must provide an array of plugin configurations.";
+
+            // Ensure it only accepts an array.
+            Object.keys(types).forEach(function(type) {
+                if (type == "array")
+                    return;
+
+                expect(function() {
+                    Config.plugins(types[type]);
+                }).to.throw(error);
+            });
+
+            // Ensure it only accepts an array of plugin configurations.
+            Object.keys(types).forEach(function(type) {
+                if (type == "object")
+                    return;
+
+                expect(function() {
+                    Config.plugins([types[type]]);
+                }).to.throw(error);
+            });
         });
 
         it("calls the plugin function for each configuration", function() {
@@ -458,7 +495,26 @@ describe("Top-Level Exports:", function() {
         });
 
         it("returns an array of plugin objects", function() {
+            var plugins = Config.plugins([
+                {
+                    plugin: function() {},
+                    parameters: [123, "abc", true]
+                },
+                {
+                    plugin: function() {},
+                    parameters: ["abc", true, 123]
+                }
+            ]);
 
+            plugins.forEach(function(plugin) {
+                expect(plugin).to.be.an("object");
+                expect(plugin).to.have.all.keys([
+                    "merge",
+                    "get",
+                    "set",
+                    "resolve"
+                ]);
+            });
         });
 
     });
