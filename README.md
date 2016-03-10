@@ -1,5 +1,9 @@
 # Webpack Configurator
 
+## Notice
+
+In the coming weeks, this module will hit v1.0.0! These changes are quite significant, causing a number of **breaking changes** in comparison to the current API. For a preview of the upcoming changes, see the [v1.0.0 branch](https://github.com/lewie9021/webpack-configurator/tree/1.0.0). Feedback is much appreciated!
+
 ## Install
 
 ```
