@@ -491,7 +491,28 @@ describe("Top-Level Exports:", function() {
         });
 
         it("calls the plugin function for each configuration", function() {
+            var Plugins = Rewire("../lib/plugins");
 
+            var spy = this.sandbox.spy();
+            var revert = Plugins.__set__("Plugin", spy);
+            var configs = [
+                {
+                    plugin: function() {},
+                    parameters: [123, "abc", true]
+                },
+                {
+                    plugin: function() {},
+                    parameters: ["abc", true, 123]
+                }
+            ];
+
+            Plugins(configs);
+
+            expect(spy.callCount).to.eq(configs.length);
+            expect(spy.firstCall.args[0]).to.eq(configs[0]);
+            expect(spy.secondCall.args[0]).to.eq(configs[1]);
+
+            revert();
         });
 
         it("returns an array of plugin objects", function() {
