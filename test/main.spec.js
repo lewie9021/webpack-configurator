@@ -443,7 +443,7 @@ describe("Top-Level Exports:", function() {
 
     });
 
-    xdescribe("plugins", function() {
+    describe("plugins", function() {
 
         it("is a function", function() {
             expect(Config.plugins).to.be.a("function");
