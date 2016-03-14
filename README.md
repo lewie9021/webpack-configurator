@@ -12,26 +12,26 @@ In a number of my old projects, I found it difficult to DRY up the configuration
 
 ## API
 
-* [x] [Top-Level Exports](#top-level-exports)
-  * [x] [loader](#loaderconfig)
-  * [x] [loaders](#loadersconfigs)
-  * [x] [plugin](#pluginconfig)
-  * [ ] [plugins](#pluginsconfigs)
-  * [x] [merge](#mergeobject-source-customizer)
-  * [x] [resolveAll](#resolveallwrappers)
-  * [x] [helpers](#helpers)
-* [x] [Loader](#loader)
-  * [x] [merge](#loadermerge)
-  * [x] [set](#loaderset)
-  * [x] [get](#loaderget)
-  * [x] [resolve](#loaderresolve)
-* [x] [Plugin](#plugin)
-  * [x] [merge](#pluginmerge)
-  * [x] [set](#pluginset)
-  * [x] [get](#pluginget)
-  * [x] [resolve](#pluginresolve)
-* [x] [Helpers](#helpers-1)
-  * [x] [concatMerge](#concatmerge)
+* [Top-Level Exports](#top-level-exports)
+  * [loader](#loaderconfig)
+  * [loaders](#loadersconfigs)
+  * [plugin](#pluginconfig)
+  * [plugins](#pluginsconfigs)
+  * [merge](#mergeobject-source-customizer)
+  * [resolveAll](#resolveallwrappers)
+  * [helpers](#helpers)
+* [Loader](#loader)
+  * [merge](#loadermerge)
+  * [set](#loaderset)
+  * [get](#loaderget)
+  * [resolve](#loaderresolve)
+* [Plugin](#plugin)
+  * [merge](#pluginmerge)
+  * [set](#pluginset)
+  * [get](#pluginget)
+  * [resolve](#pluginresolve)
+* [Helpers](#helpers-1)
+  * [concatMerge](#concatmerge)
 
 ### Top-Level Exports
 
@@ -92,7 +92,7 @@ var webpackDefine = Config.plugin({
 });
 ```
 
-#### ~~plugins(configs)~~
+#### plugins(configs)
 
 You may wish to define several plugins at once. This utility accepts an array of plugin configurations and returns an array of plugin object wrappers. Below is an example of its usage:
 
