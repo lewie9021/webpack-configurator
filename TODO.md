@@ -3,6 +3,7 @@
 - [ ] Cloning complex objects should simply reference. See [#2](https://github.com/lewie9021/webpack-configurator/issues/2).
 - [ ] Document each method parameter in the docs.
 - [ ] Add test cases for each example.
+- [ ] Remove old files.
 
 ## Future plans:
 
