@@ -22,7 +22,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "lodash.clonedeep": "4.1.0",
+    "lodash.clonedeepwith": "4.3.2",
+    "lodash.isplainobject": "4.0.4",
     "lodash.mergewith": "4.1.0"
   },
   "devDependencies": {
